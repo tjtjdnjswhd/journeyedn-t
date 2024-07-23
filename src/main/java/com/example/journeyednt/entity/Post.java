@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,10 +33,10 @@ public class Post {
 //    private String content;
 
     @Column(name = "create_at", nullable = false)
-    private Timestamp createAt;
+    private LocalDateTime createAt;
 
     @Column(name = "update_at", nullable = false)
-    private Timestamp updateAt;
+    private LocalDateTime updateAt;
 
     @Column(name = "is_visible", nullable = false)
     private boolean isVisible;
@@ -49,7 +49,7 @@ public class Post {
     private User user;
 
     @Builder
-    public Post(String title, String content, Timestamp createAt, Timestamp updateAt, boolean isVisible, boolean isNotice, Post post) {
+    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt, boolean isVisible, boolean isNotice, Post post) {
         this.title = title;
         this.content = content;
         this.createAt = createAt;
