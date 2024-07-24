@@ -16,28 +16,28 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "INT")
-    private int id;
+    private Integer id;
 
     // 회원 아이디
     @Column(name = "account_id", nullable = false, unique = true, length = 20)
-    private String account_id;
+    private String accountId;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(name = "nickname", unique = true, nullable = false, length = 20)
-    private String nickname;
+    @Column(unique = true, nullable = false, length = 20)
+    private String nickName;
 
-    @Column(name = "passwordHash", nullable = false)
+    @Column(name = "password_hash", nullable = false)
     private String password;
 
-    @Column(name = "createdAt", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "isVisible", nullable = false)
+    @Column(nullable = false)
     private boolean isVisible;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -45,38 +45,26 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user" , orphanRemoval = true)
-    // 추후 계정 삭제시 cascade = CascadeType.ALL
     private List<Post> post = new ArrayList<>();
 
     @Builder
-    public User(String account_id, String name, String nickname, String password, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean isVisible) {
-        this.account_id = account_id;
+    public User(String accountId, String name, String nickName, String password, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean isVisible) {
+        this.accountId = accountId;
         this.name = name;
-        this.nickname = nickname;
+        this.nickName = nickName;
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.isVisible = isVisible;
     }
 
-    public static User of(String account_id, String nickname, String password) {
+    public static User of(String accountId, String nickname, String password) {
         return User.builder()
-                .account_id(account_id)
-                .nickname(nickname)
+                .accountId(accountId)
+                .nickName(nickname)
                 .password(password)
                 .createdAt(LocalDateTime.now())
                 .isVisible(true)
                 .build();
     }
-
-// 나중에 수정 할때 추가 하기
-//    public User update(String nickname) {
-//        this.nickname = nickname;
-//        this.updatedAt = LocalDateTime.now();
-//        return this;
-//    }
-//
-//    public void setEncryptedPassword(String encryptedPassword) {
-//        this.password = encryptedPassword;
-//    }
 }
