@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private int id;
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "title", nullable = false, length = 50)
     private String title;
 
     @Lob
-    @Column(nullable = false)
+    @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "create_at", nullable = false)
@@ -31,17 +31,17 @@ public class Post {
     private LocalDateTime updateAt;
 
     @Column(name = "is_visible", nullable = false)
-    private boolean isVisible;
+    private Boolean isVisible;
 
     @Column(name = "is_notice", nullable = false)
-    private boolean isNotice;
+    private Boolean isNotice;
 
     @ManyToOne
     @JoinColumn(name = "id")
     private User user;
 
     @Builder
-    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt, boolean isVisible, boolean isNotice) {
+    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice) {
         this.title = title;
         this.content = content;
         this.createAt = createAt;
@@ -50,7 +50,7 @@ public class Post {
         this.isNotice = isNotice;
     }
 
-    public void updatePost(String title, String content, boolean isVisible) {
+    public void updatePost(String title, String content, Boolean isVisible) {
         this.title = title;
         this.content = content;
         this.isVisible = isVisible;

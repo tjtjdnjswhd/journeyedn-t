@@ -13,9 +13,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     Optional<Post> findById(Integer id); // id로 게시글 찾기
 
-    List<Post> findByIsVisible(boolean isVisible); // 공개/비공개 게시글 검색
+    List<Post> findByIsVisible(Boolean isVisible); // 공개/비공개 게시글 검색
 
-    List<Post> findByIsNotice(boolean isNotice); // 공지사항/일반 게시글 검색
+    List<Post> findByIsNotice(Boolean isNotice); // 공지사항/일반 게시글 검색
 
     List<Post> findByTitle(String title); // 제목으로 게시글을 찾기
 
