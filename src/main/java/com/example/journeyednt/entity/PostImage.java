@@ -1,7 +1,6 @@
 package com.example.journeyednt.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import org.springframework.data.annotation.Id;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "post_image")
 
@@ -30,7 +28,7 @@ public class PostImage {
     @Column(name = "is_primary", nullable = false)
     private Boolean isPrimary;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
@@ -41,7 +39,7 @@ public class PostImage {
         this.isPrimary = isPrimary;
     }
 
-    public void setImageUpdate(String contentType, byte[] data, boolean isPrimary) {
+    public void UpdatePostImage(String contentType, byte[] data, boolean isPrimary) {
         this.contentType = contentType;
         this.data = data;
         this.isPrimary = isPrimary;
