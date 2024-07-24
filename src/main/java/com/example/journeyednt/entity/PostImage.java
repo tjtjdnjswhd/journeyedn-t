@@ -39,7 +39,7 @@ public class PostImage {
         this.isPrimary = isPrimary;
     }
 
-    public void UpdatePostImage(String contentType, byte[] data, boolean isPrimary) {
+    public void updatePostImage(String contentType, byte[] data, boolean isPrimary) {
         this.contentType = contentType;
         this.data = data;
         this.isPrimary = isPrimary;
