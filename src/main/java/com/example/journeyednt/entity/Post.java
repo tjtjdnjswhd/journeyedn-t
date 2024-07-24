@@ -58,4 +58,11 @@ public class Post {
         this.isVisible = isVisible;
     }
 
+    public static Post of(String title, String content, Boolean isNotice) {
+        return Post.builder()
+                .title(title)
+                .content(content)
+                .isNotice(isNotice)
+                .build();
+    }
 }
