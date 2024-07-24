@@ -38,7 +38,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private boolean isVisible;
+    private Boolean isVisible;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
