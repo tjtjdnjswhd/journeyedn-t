@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    Optional<Post> findById(Integer  id); // id로 게시글 찾기
+    Optional<Post> findById(Integer id); // id로 게시글 찾기
 
-    List<Post> findByIsVisibleTrue(boolean isVisible); // 노출된 게시물 조회
+    List<Post> findByIsVisible(boolean isVisible); // 공개/비공개 게시글 검색
 
-    List<Post> findByIsNoticeTrue(boolean isNotice); // 공지사항만 조회
+    List<Post> findByIsNotice(boolean isNotice); // 공지사항/일반 게시글 검색
 
     List<Post> findByTitle(String title); // 제목으로 게시글을 찾기
 
