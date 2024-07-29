@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "country")
 public class Country {
 
     @Id
@@ -16,7 +17,7 @@ public class Country {
     @Column(name = "id", columnDefinition = "INT")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
@@ -24,8 +25,18 @@ public class Country {
     private String name;
 
     @Builder
-    public Country(String name) { this.name = name; }
+    public Country(Integer id, String name) {
+        this.name = name;
+    }
 
-    public void updateCountry(String name) { this.name = name; }
+    public void updateCountry(String name) {
+        this.name = name;
+    }
+
+    public static Country of(String name) {
+        return Country.builder()
+                .name(name)
+                .build();
+    }
 }
 
