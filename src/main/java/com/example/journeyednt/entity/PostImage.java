@@ -32,10 +32,12 @@ public class PostImage{
     private Post post;
 
     @Builder
-    public PostImage(String contentType, byte[] data, boolean isPrimary) {
+    public PostImage(Integer id,String contentType, byte[] data, boolean isPrimary, Post post) {
+        this.id = id;
         this.contentType = contentType;
         this.data = data;
         this.isPrimary = isPrimary;
+        this.post = post;
     }
 
     public void updatePostImage(String contentType, byte[] data, boolean isPrimary) {
