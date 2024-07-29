@@ -5,6 +5,7 @@ import com.example.journeyednt.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,24 +21,43 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findByIsNotice(Boolean isNotice); // 공지사항/일반 게시글 검색
 
-    List<Post> findByTitle(String title); // 제목으로 게시글을 찾기
-
     List<Post> findByContent(String content); // 내용으로 게시글을 찾기
 
     List<Post> findByTitleAndContent(String title, String content); // 제목, 내용으로 게시글을 찾기
 
+    @Query(value = "SELECT p FROM Post p WHERE p.title = :title AND p.isVisible = true")
+    List<Post> findByTitleAndIsVisible(@Param("title") String title);
+    // 제목으로 공개 게시물만 찾기
+
     @Modifying
     @Transactional
-    @Query("UPDATE Post p SET p.isVisible = :isVisible")
+    @Query(value = "UPDATE Post p SET p.isVisible = :isVisible")
     int updateAllPostsVisibility(Boolean isVisible);
     // 모든 게시글의 공개 상태를 변경하는 벌크 업데이트
 
     @Modifying
     @Transactional
-    @Query("UPDATE Post p SET p.isVisible = :isVisible WHERE p.user.id = :userId")
+    @Query(value = "UPDATE Post p SET p.isVisible = :isVisible WHERE p.user.id = :userId")
     int updateUserPostsVisibility(Integer userId, Boolean isVisible);
     // 특정 사용자의 모든 게시글의 공개 상태를 변경하는 벌크 업데이트
 
+    @Query(value = "SELECT p.id, p.tags FROM Post p WHERE :tag MEMBER OF (p.tags)", nativeQuery = true)
+    List<Post> findByTag(@Param("tag") String tag);
+    // 특정 태그를 포함하는 게시글 찾기
+
+    @Query(value = "SELECT p FROM Post p JOIN p.country c JOIN c.city ci WHERE ci.id = :cityId AND c.id = :countryId AND p.isVisible = true")
+    List<Post> findByCityAndCountry(@Param("cityId") Integer cityId, @Param("countryId") Integer countryId);
+    // 시/도, 시/군/구로 공개 게시물 조회
+
+    @Query(value = "SELECT p FROM Post p JOIN p.country c JOIN c.city ci WHERE ci.id = :cityId AND c.id = :countryId AND p.isVisible = true AND :tag MEMBER OF p.tags")
+    List<Post> findByCityCountryAndTag(@Param("cityId") Integer cityId, @Param("countryId") Integer countryId, @Param("tags") List<String> tags);
+    // 시/도, 시/군/구, 그리고 태그를 포함하는 공개게시물 찾기
+
+    @Query(value = "SELECT p FROM Post p JOIN p.country c JOIN c.city ci WHERE ci.id = :cityId AND c.id = :countryId AND p.isVisible = true AND p.title LIKE %:title%")
+    List<Post> findByCityCountryAndTitle(@Param("cityId") Integer cityId, @Param("countryId") Integer countryId, @Param("title") String title);
+    // 시/도, 시/군/구, 그리고 제목을 포함하는 공개게시물 찾기
 }
+
+
 
 
