@@ -2,14 +2,15 @@ package com.example.journeyednt.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Id;
 
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@Table(name = "post")
 @Entity
 public class Post {
     @Id
@@ -36,8 +37,8 @@ public class Post {
     @Column(name = "is_notice", nullable = false)
     private Boolean isNotice;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
@@ -50,9 +51,18 @@ public class Post {
         this.isNotice = isNotice;
     }
 
-    public void updatePost(String title, String content, Boolean isVisible) {
+    public void updatePost(String title, String content, LocalDateTime updateAt, Boolean isVisible) {
         this.title = title;
         this.content = content;
+        this.updateAt = updateAt;
         this.isVisible = isVisible;
+    }
+
+    public static Post of(String title, String content, Boolean isNotice) {
+        return Post.builder()
+                .title(title)
+                .content(content)
+                .isNotice(isNotice)
+                .build();
     }
 }
