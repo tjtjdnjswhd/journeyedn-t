@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 @Table(name = "post_image")
 
-public class PostImage {
+public class PostImage{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class PostImage {
     @Column(name = "is_primary", nullable = false)
     private Boolean isPrimary;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
@@ -45,3 +45,4 @@ public class PostImage {
         this.isPrimary = isPrimary;
     }
 }
+
