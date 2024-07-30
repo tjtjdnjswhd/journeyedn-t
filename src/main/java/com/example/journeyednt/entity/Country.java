@@ -25,17 +25,20 @@ public class Country {
     private String name;
 
     @Builder
-    public Country(Integer id, String name) {
+    public Country(Integer id, String name, City city) {
+        this.id = id;
         this.name = name;
+        this.city = city;
     }
 
     public void updateCountry(String name) {
         this.name = name;
     }
 
-    public static Country of(String name) {
+    public static Country of(String name, City city) {
         return Country.builder()
                 .name(name)
+                .city(city)
                 .build();
     }
 }
