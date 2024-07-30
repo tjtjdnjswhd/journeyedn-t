@@ -42,7 +42,8 @@ public class Post {
     private User user;
 
     @Builder
-    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice) {
+    public Post(Integer id,String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.createAt = createAt;
