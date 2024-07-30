@@ -1,7 +1,6 @@
 package com.example.journeyednt.domain;
 
 import com.example.journeyednt.entity.PostImage;
-import com.example.journeyednt.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,11 @@
 package com.example.journeyednt.entity;
 
+import com.example.journeyednt.converter.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Id;
 
@@ -37,32 +39,50 @@ public class Post {
     @Column(name = "is_notice", nullable = false)
     private Boolean isNotice;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "tag")
+    @Convert(converter = StringListConverter.class)
+    private List<String> tags;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cdd_id")
+    private Country country;
+
+    @Column(name = "rating", nullable = false)
+    private Integer rating;
+
     @Builder
-    public Post(String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice) {
+    public Post(Integer id, String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice, List<String> tags, Integer rating) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.isVisible = isVisible;
         this.isNotice = isNotice;
+        this.tags = tags;
+        this.rating = rating;
     }
 
-    public void updatePost(String title, String content, LocalDateTime updateAt, Boolean isVisible) {
+    public void updatePost(String title, String content, LocalDateTime updateAt, Boolean isVisible, List<String> tags, Integer rating) {
         this.title = title;
         this.content = content;
         this.updateAt = updateAt;
         this.isVisible = isVisible;
+        this.tags = tags;
+        this.rating = rating;
     }
 
-    public static Post of(String title, String content, Boolean isNotice) {
+    public static Post of(String title, String content, Boolean isNotice, List<String> tags, Integer rating) {
         return Post.builder()
                 .title(title)
                 .content(content)
                 .isNotice(isNotice)
+                .tags(tags)
+                .rating(rating)
                 .build();
     }
 }
