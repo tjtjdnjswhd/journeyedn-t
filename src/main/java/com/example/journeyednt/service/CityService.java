@@ -25,6 +25,12 @@ public class CityService {
         this.countryRepository = countryRepository;
     }
 
+    public List<CityDto> findAll() {
+        return cityRepository.findAll().stream()
+                .map(CityDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     public CityDto getCityWithCountriesByQuery(Integer cityId) {
         City city = cityRepository.findById(cityId)
@@ -41,23 +47,6 @@ public class CityService {
                 .build();
     }
     // Query 문으로 city에 대한 country 가져오기
-
-//    @Transactional(readOnly = true)
-//    public CityDto getCityWithCountries(Integer cityId) {
-//        City city = cityRepository.findById(cityId)
-//                .orElseThrow(() -> new EntityNotFoundException("City not found with id: " + cityId));
-//
-//        List<CountryDto> countries = city.getCountries().stream()
-//                .map(CountryDto::fromEntity)
-//                .collect(Collectors.toList());
-//
-//        return CityDto.builder()
-//                .id(city.getId())
-//                .name(city.getName())
-//                .countries(countries)
-//                .build();
-//    }
-//    // City 객체에 있는 countries로 가져오기
 
 
 
