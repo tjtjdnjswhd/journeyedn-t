@@ -78,7 +78,7 @@ public class Post {
         this.rating = rating;
     }
 
-    public static Post of(String title, String content, Boolean isNotice, List<String> tags, Integer rating) {
+    public static Post of(String title, String content, Boolean isNotice, List<String> tags, Integer rating, User user) {
         return Post.builder()
                 .title(title)
                 .content(content)
@@ -88,6 +88,7 @@ public class Post {
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
                 .isVisible(true)
+                .user(user)
                 .build();
     }
 }
