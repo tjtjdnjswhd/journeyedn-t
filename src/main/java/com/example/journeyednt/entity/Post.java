@@ -30,7 +30,7 @@ public class Post {
     @Column(name = "create_at", nullable = false)
     private LocalDateTime createAt;
 
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
     @Column(name = "is_visible", nullable = false)
@@ -55,7 +55,7 @@ public class Post {
     private Integer rating;
 
     @Builder
-    public Post(Integer id, String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice, List<String> tags, Integer rating) {
+    public Post(Integer id, String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice, List<String> tags, Integer rating, User user, Country country) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -65,6 +65,8 @@ public class Post {
         this.isNotice = isNotice;
         this.tags = tags;
         this.rating = rating;
+        this.user = user;
+        this.country = country;
     }
 
     public void updatePost(String title, String content, LocalDateTime updateAt, Boolean isVisible, List<String> tags, Integer rating) {
@@ -83,6 +85,9 @@ public class Post {
                 .isNotice(isNotice)
                 .tags(tags)
                 .rating(rating)
+                .createAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now())
+                .isVisible(true)
                 .build();
     }
 }
