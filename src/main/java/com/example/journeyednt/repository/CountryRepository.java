@@ -28,4 +28,7 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
     @Query("SELECT c.id FROM Country c WHERE c.name = :name")
     Integer findIdByName(@Param("name") String name);
     // name으로 id를 찾을 수 있는 쿼리
+
+    @Query("SELECT c.city.name, c.name, c.id FROM Country c")
+    List<Object[]> findAllCityCountry();
 }
