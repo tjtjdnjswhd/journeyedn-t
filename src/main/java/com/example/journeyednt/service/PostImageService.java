@@ -19,31 +19,31 @@ public class PostImageService {
         this.postImageRepository = postImageRepository;
     }
 
-    // 특정 게시물의 모든 이미지를 조회
+    // 특정 게시물의 모든 이미지를 조회  // Read all by postId
     @Transactional(readOnly = true)
     public List<PostImage> getPostImagesByPostId(Integer postId) {
         return postImageRepository.findByPostId(postId);
     }
 
-    // 특정 콘텐츠 타입의 이미지를 조회
+    // 특정 콘텐츠 타입의 이미지를 조회   // Read all by contentType
     @Transactional(readOnly = true)
     public List<PostImage> getPostImagesByContentType(String contentType) {
         return postImageRepository.findByContentType(contentType);
     }
 
-    // 특정 게시물의 주 이미지를 조회
+    // 특정 게시물의 주 이미지를 조회 // Read primary image by postId
     @Transactional(readOnly = true)
     public Optional<PostImage> getPrimaryPostImageByPostId(Integer postId) {
         return postImageRepository.findByPostIdAndIsPrimary(postId, true);
     }
 
-    // 특정 게시물의 특정 콘텐츠 타입의 이미지를 조회
+    // 특정 게시물의 특정 콘텐츠 타입의 이미지를 조회   // Read by postId and contentType
     @Transactional(readOnly = true)
     public List<PostImage> getPostImagesByPostIdAndContentType(Integer postId, String contentType) {
         return postImageRepository.findByPostIdAndContentType(postId, contentType);
     }
 
-    // 새로운 이미지를 저장
+    // 새로운 이미지를 저장// Create   // Delete
     @Transactional
     public PostImage savePostImage(PostImage postImage) {
         return postImageRepository.save(postImage);
@@ -55,7 +55,7 @@ public class PostImageService {
         postImageRepository.deleteById(id);
     }
 
-    // 특정 이미지를 업데이트
+    // 특정 이미지를 업데이트     // Update
     @Transactional
     public PostImage updatePostImage(Integer id, String contentType, byte[] data, boolean isPrimary) {
         Optional<PostImage> optionalPostImage = postImageRepository.findById(id);
@@ -66,5 +66,11 @@ public class PostImageService {
         } else {
             throw new IllegalArgumentException("PostImage not found with id: " + id);
         } // PostImage 객체를 찾을 수 없을때 예외 에러
+    }
+
+    @Transactional(readOnly = true)
+    public PostImage findById(Integer id) {
+        return postImageRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("PostImage not found with id: " + id));
     }
 }
