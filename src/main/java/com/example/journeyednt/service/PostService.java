@@ -47,6 +47,14 @@ public class PostService {
         return PostDto.fromEntity(savedPost);
     }
 
+    // 게시글 상세보기
+    @Transactional(readOnly = true)
+    public PostDto getPostbyid(Integer id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글은 존재하지 않습니다. " + id));
+        return PostDto.fromEntity(post);
+    }
+
     // 게시글 수정
     @Transactional
     public PostDto updatePost(Integer id, PostDto postDto) {
