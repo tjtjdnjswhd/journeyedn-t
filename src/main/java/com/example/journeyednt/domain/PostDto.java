@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Builder
 public class PostDto {
@@ -51,6 +51,7 @@ public class PostDto {
                 .isNotice(this.isNotice)
                 .tags(this.tags)
                 .rating(this.rating)
+                .user(user)
                 .build();
     }
 }
