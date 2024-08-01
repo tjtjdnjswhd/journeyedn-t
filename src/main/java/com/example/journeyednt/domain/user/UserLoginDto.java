@@ -1,0 +1,57 @@
+package com.example.journeyednt.domain.user;
+
+import com.example.journeyednt.entity.Post;
+import com.example.journeyednt.entity.Role;
+import com.example.journeyednt.entity.User;
+import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.journeyednt.global.constant.RegExp.ACCOUNT_ID_REGEXP;
+import static com.example.journeyednt.global.constant.RegExp.PASSWORD_REGEXP;
+
+@Getter
+@Builder
+public class UserLoginDto {
+    private Integer id;
+
+    @Pattern(message = "형식이 맞지 않습니다.", regexp = ACCOUNT_ID_REGEXP)
+    private String accountId;
+
+    @Pattern(message = "비밀번호 형식이 맞지 않습니다.", regexp = PASSWORD_REGEXP)
+    private String passwordHash;
+
+    private String name;
+    private String nickName;
+    private Role role;
+    private List<Post> post;
+    private Boolean isVisible;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public static UserLoginDto toDto(User user) {
+        return UserLoginDto.builder()
+                .id(user.getId())
+                .accountId(user.getAccountId())
+                .passwordHash(user.getPasswordHash())
+                .name(user.getName())
+                .nickName(user.getNickName())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .isVisible(user.getIsVisible())
+                .role(user.getRole())
+                .post(user.getPost())
+                .build();
+    }
+
+    public User toEntity() {
+        return User.builder()
+                .accountId(this.accountId)
+                .passwordHash(this.passwordHash)
+                .build();
+    }
+}
