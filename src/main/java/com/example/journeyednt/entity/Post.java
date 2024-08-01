@@ -9,7 +9,6 @@ import java.util.List;
 
 import jakarta.persistence.Id;
 
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "post")
