@@ -1,15 +1,14 @@
 package com.example.journeyednt.domain;
 
 import com.example.journeyednt.entity.City;
-import com.example.journeyednt.entity.User;
 import lombok.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class CityDto {
 

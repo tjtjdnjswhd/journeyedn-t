@@ -1,13 +1,10 @@
 package com.example.journeyednt.service;
 
-import com.example.journeyednt.entity.City;
-import com.example.journeyednt.domain.CityDto;
 import com.example.journeyednt.domain.CountryDto;
-import com.example.journeyednt.entity.Country;
 import com.example.journeyednt.repository.CityRepository;
 import com.example.journeyednt.repository.CountryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +14,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CountryService {
     private final CountryRepository countryRepository;
-    private final CityRepository cityRepository;
-
-    @Autowired
-    public CountryService(CountryRepository countryRepository, CityRepository cityRepository) {
-        this.countryRepository = countryRepository;
-        this.cityRepository = cityRepository;
-    }
 
     // cityId로 city에 해당하는 countries 가져오기
     @Transactional(readOnly = true)

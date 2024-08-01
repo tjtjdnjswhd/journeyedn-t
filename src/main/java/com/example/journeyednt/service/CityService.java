@@ -7,6 +7,7 @@ import com.example.journeyednt.entity.Country;
 import com.example.journeyednt.repository.CityRepository;
 import com.example.journeyednt.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +16,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CityService {
     private final CityRepository cityRepository;
     private final CountryRepository countryRepository;
-
-    @Autowired
-    public CityService(CityRepository cityRepository, CountryRepository countryRepository) {
-        this.cityRepository = cityRepository;
-        this.countryRepository = countryRepository;
-    }
 
     public List<CityDto> findAll() {
         return cityRepository.findAll().stream()
