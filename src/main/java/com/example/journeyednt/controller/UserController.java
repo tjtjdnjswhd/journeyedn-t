@@ -53,7 +53,11 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@ModelAttribute @Valid UserLoginDto userLoginDto, Model model) {
-        if (!userService.findUserIsVisibleByAccountId(userLoginDto.getAccountId()) || userLoginDto.getIsVisible() == null) {
+        if (!userService.findUserIsVisibleByAccountId(userLoginDto.getAccountId())
+                || userLoginDto.getIsVisible() == null
+                || userService.findUserRoleByAccountId(userLoginDto.getAccountId())
+                .map(role -> role.getName().equals("정지"))
+                .orElse(false)) {
             throw new UserException();
         }
         User user = userService.loginUser(userLoginDto);
@@ -61,18 +65,17 @@ public class UserController {
         return "redirect:/";
     }
 
-    @DeleteMapping("/{userId}")
+    @PostMapping("/{userId}")
     public String deleteUser(@PathVariable("userId") Integer userId) {
         userService.updateVisibleUser(userId, false);
         userService.updateUserRole(userId, "정지");
         return "redirect:/";
     }
 
-    @PatchMapping("/admin/{accountId}")
-    public String updateUser(@PathVariable("accountId") String accountId, @RequestParam("roleName") String roleName) {
+    @PostMapping("/admin/updateUser")
+    public String updateUser(@RequestParam("accountId") String accountId, @RequestParam("roleName") String roleName) {
         UserDto userDto = userService.getUserById(accountId);
         userService.updateUserRole(userDto.getId(), roleName);
         return "redirect:/admin";
     }
-
 }

@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -46,23 +48,19 @@ public class UserService {
     }
 
     // 노출 여부 조회
-    public Object findUserRoleByAccountId(String accountId) {
-        return userRepository.findRoleByAccountId(accountId)
-                .orElseThrow(() -> new UserException());
+    public Boolean findUserIsVisibleByAccountId(String accountId) {
+        return userRepository.findIsVisibleByAccountId(accountId);
     }
 
     // 노출 변경
     @Transactional
-    public void updateVisibleUser(Integer userId, Boolean visible) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException());
-        user.setIsVisible(visible);
-        userRepository.save(user);
+    public void updateVisibleUser(Integer Id, Boolean visible) {
+        userRepository.updateUserVisibleById(Id, visible);
     }
 
     // 권한 조회
-    public Boolean findUserIsVisibleByAccountId(String accountId) {
-        return userRepository.findIsVisibleByAccountId(accountId);
+    public Optional<Role> findUserRoleByAccountId(String accountId) {
+        return userRepository.findRoleByAccountId(accountId);
     }
 
     // 권한 변경

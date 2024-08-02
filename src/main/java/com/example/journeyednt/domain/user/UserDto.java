@@ -21,7 +21,7 @@ public class UserDto {
     private String name;
     private String nickName;
     private Role role;
-    private List<Post> post;
+    private List<PostDto> post;
     private Boolean isVisible;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

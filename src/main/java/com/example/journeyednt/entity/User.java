@@ -60,10 +60,6 @@ public class User {
         this.post = post;
     }
 
-    public void setIsVisible(Boolean isVisible) {
-        this.isVisible = isVisible;
-    }
-
     public void setRole(Role role) {
         this.role = role;
     }
