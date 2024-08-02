@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "post_image")
 
-public class PostImage {
+public class PostImage{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,20 +27,22 @@ public class PostImage {
     @Column(name = "is_primary", nullable = false)
     private Boolean isPrimary;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @Builder
-    public PostImage(String contentType, byte[] data, boolean isPrimary) {
+    public PostImage(Integer id,String contentType, byte[] data, boolean isPrimary, Post post) {
+        this.id = id;
         this.contentType = contentType;
         this.data = data;
         this.isPrimary = isPrimary;
+        this.post = post;
     }
-
     public void updatePostImage(String contentType, byte[] data, boolean isPrimary) {
         this.contentType = contentType;
         this.data = data;
         this.isPrimary = isPrimary;
     }
 }
+
