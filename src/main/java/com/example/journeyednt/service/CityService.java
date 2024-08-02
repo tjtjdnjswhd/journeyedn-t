@@ -3,12 +3,10 @@ package com.example.journeyednt.service;
 import com.example.journeyednt.domain.CityDto;
 import com.example.journeyednt.domain.CountryDto;
 import com.example.journeyednt.entity.City;
-import com.example.journeyednt.entity.Country;
 import com.example.journeyednt.repository.CityRepository;
 import com.example.journeyednt.repository.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
