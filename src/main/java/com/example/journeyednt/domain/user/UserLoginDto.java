@@ -1,5 +1,6 @@
 package com.example.journeyednt.domain.user;
 
+import com.example.journeyednt.domain.PostDto;
 import com.example.journeyednt.entity.Post;
 import com.example.journeyednt.entity.Role;
 import com.example.journeyednt.entity.User;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.journeyednt.global.constant.RegExp.ACCOUNT_ID_REGEXP;
 import static com.example.journeyednt.global.constant.RegExp.PASSWORD_REGEXP;
@@ -28,7 +30,7 @@ public class UserLoginDto {
     private String name;
     private String nickName;
     private Role role;
-    private List<Post> post;
+    private List<PostDto> post;
     private Boolean isVisible;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -44,7 +46,11 @@ public class UserLoginDto {
                 .updatedAt(user.getUpdatedAt())
                 .isVisible(user.getIsVisible())
                 .role(user.getRole())
-                .post(user.getPost())
+                .post(user.getPost() != null ?
+                        user.getPost().stream()
+                                .map(PostDto::fromEntity)
+                                .collect(Collectors.toList())
+                        : null)
                 .build();
     }
 

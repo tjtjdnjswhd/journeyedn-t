@@ -60,13 +60,7 @@ public class User {
         this.post = post;
     }
 
-    public static User of(String accountId, String nickName, String passwordHash) {
-        return User.builder()
-                .accountId(accountId)
-                .nickName(nickName)
-                .passwordHash(passwordHash)
-                .createdAt(LocalDateTime.now())
-                .isVisible(true)
-                .build();
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
