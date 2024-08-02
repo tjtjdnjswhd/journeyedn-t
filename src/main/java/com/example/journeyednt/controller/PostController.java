@@ -3,7 +3,7 @@ package com.example.journeyednt.controller;
 import com.example.journeyednt.domain.PostDto;
 import com.example.journeyednt.entity.User;
 import com.example.journeyednt.service.PostService;
-import com.example.journeyednt.service.user.UserService;
+import com.example.journeyednt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
