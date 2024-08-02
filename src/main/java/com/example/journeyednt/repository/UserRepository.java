@@ -11,8 +11,16 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByNickname(String nickName);
     Optional<User> findByAccountId(String accountId);
+    Optional<User> findById(Integer id);
+
     boolean existsByAccountId(String accountId);
     boolean existsByNickname(String nickName);
+
+    @Query("SELECT u.role FROM User u WHERE u.accountId = :accountId")
+    Optional<Role> findRoleByAccountId(@Param("accountId") String accountId);
+
+    @Query("SELECT u.isVisible FROM User u WHERE u.accountId = :accountId")
+    Boolean findIsVisibleByAccountId(@Param("accountId") String accountId);
 
     @Query("SELECT u.nickname FROM User u WHERE u.id = :accountId")
     Optional<String> findNicknameById(@Param("accountId") String accountId);

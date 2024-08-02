@@ -1,5 +1,6 @@
 package com.example.journeyednt.domain.user;
 
+import com.example.journeyednt.domain.PostDto;
 import com.example.journeyednt.entity.Post;
 import com.example.journeyednt.entity.Role;
 
@@ -38,22 +39,16 @@ public class UserDto {
                 .role(user.getRole())
                 .post(user.getPost() != null ?
                         user.getPost().stream()
-                                .map(PostDtd::fromEntity)
+                                .map(PostDto::fromEntity)
                                 .collect(Collectors.toList())
                         : null)
                 .build();
     }
 
-    public User toEntityWithVisibility() {
+    public User toEntity() {
         return User.builder()
                 .accountId(this.accountId)
                 .isVisible(this.isVisible)
-                .build();
-    }
-
-    public User toEntityWithRole() {
-        return User.builder()
-                .accountId(this.accountId)
                 .role(this.role)
                 .build();
     }
