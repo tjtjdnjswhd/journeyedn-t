@@ -36,20 +36,6 @@ public class City {
         this.name = name;
     }
 
-//    public void addCountry(Country country) {
-//        countries.add(country);
-//        // Builder를 통해 새로운 Country 객체 생성
-//        Country newCountry = Country.builder()
-//                .name(country.getName())
-//                .city(this)  // 연관 관계 설정
-//                .build();
-//        countries.add(newCountry);
-//    }
-//
-//    public void removeCountry(Country country) {
-//        countries.remove(country);
-//    }
-
     public static City of(String name) {
         return City.builder()
                 .name(name)
