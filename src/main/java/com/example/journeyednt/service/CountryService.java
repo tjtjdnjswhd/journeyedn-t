@@ -1,10 +1,8 @@
 package com.example.journeyednt.service;
 
 import com.example.journeyednt.domain.CountryDto;
-import com.example.journeyednt.repository.CityRepository;
 import com.example.journeyednt.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
