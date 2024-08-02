@@ -11,6 +11,7 @@ import com.example.journeyednt.entity.User;
 import com.example.journeyednt.exception.UserException;
 import com.example.journeyednt.repository.RoleRepository;
 import com.example.journeyednt.repository.UserRepository;
+import com.example.journeyednt.result.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +30,11 @@ public class UserService {
         boolean accountExists = existsByAccountId(userCreateDto.getAccountId());
         boolean nicknameExists = existsByNickname(userCreateDto.getNickName());
 
-        if (accountExists || nicknameExists) {
-            throw new UserException();
+        if (nicknameExists) {
+            throw new UserException(ErrorCode.USER_NICKNAME_EXISTS);
+        }
+        if (accountExists) {
+            throw new UserException(ErrorCode.USER_ACCOUNT_ID_EXISTS);
         }
 
         User user = userCreateDto.toEntity();
@@ -42,8 +46,9 @@ public class UserService {
     public User loginUser(UserLoginDto userLoginDto) {
         User user = findByAccountId(userLoginDto.getAccountId());
         if (!passwordEncoderConfig.passwordEncoder().matches(userLoginDto.getPasswordHash(), user.getPasswordHash())) {
-            throw new UserException();
+            throw new UserException(ErrorCode.WRONG_PASSWORD);
         }
+
         return user;
     }
 
@@ -66,10 +71,10 @@ public class UserService {
     // 권한 변경
     public void updateUserRole(Integer userId, String roleName) {
         Role role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new UserException());
+                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException());
+                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
         user.setRole(role);
         userRepository.save(user);
@@ -79,7 +84,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserDto getUserById(String accountId) {
         User user = userRepository.findByAccountId(accountId)
-                .orElseThrow(() -> new UserException());
+                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
         return UserDto.toDto(user);
     }
 
@@ -94,11 +99,11 @@ public class UserService {
 
     public User findByAccountId(String accountId) {
         return userRepository.findByAccountId(accountId)
-                .orElseThrow(() -> new UserException());
+                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 
     public User findByNickname(String nickName) {
         return userRepository.findByNickname(nickName)
-                .orElseThrow(() -> new UserException());
+                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 }

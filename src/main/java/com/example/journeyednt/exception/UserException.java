@@ -1,5 +1,12 @@
 package com.example.journeyednt.exception;
 
-public class UserException extends RuntimeException {
+import com.example.journeyednt.result.ErrorCode;
 
+public class UserException extends RuntimeException {
+    private ErrorCode errorCode;
+
+    public UserException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
 }
