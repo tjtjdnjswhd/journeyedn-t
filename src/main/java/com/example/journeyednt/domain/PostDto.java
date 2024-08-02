@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class PostDto {
@@ -24,6 +24,11 @@ public class PostDto {
     private List<String> tags;
     private Country country;
     private Integer rating;
+
+    //  public static 팩토리 메서드 추가 (컨트롤러쪽 사용시 필요!)
+    public static PostDto createEmpty() {
+        return new PostDto();
+    }
 
     public static PostDto fromEntity(Post post) {
         return PostDto.builder()
