@@ -77,11 +77,15 @@ public class UserService {
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
-        User user = userRepository.findById(userId)
+        userRepository.updateUserRoleById(userId, role);
+    }
+
+    @Transactional
+    public void updateUserRole(String accountId, String roleName) {
+        Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
 
-        user.setRole(role);
-        userRepository.save(user);
+        userRepository.updateUserRoleByAccountId(accountId, role);
     }
 
     // 회원 조회 - accountId
