@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 @Validated
 public class UserController {
+
     private final UserService userService;
 
     //    @Operation(summary = "회원가입", description = "유저를 생성합니다.")
@@ -45,9 +46,9 @@ public class UserController {
     @GetMapping("/login")
     public String loginForm(Model model) {
         UserLoginDto userLoginDto = UserLoginDto.builder()
-            .accountId("")
-            .passwordHash("")
-            .build();
+                .accountId("")
+                .passwordHash("")
+                .build();
         model.addAttribute("userLoginDto", userLoginDto);
         return "loginForm";
     }
