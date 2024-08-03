@@ -9,14 +9,15 @@ import java.util.List;
 
 import jakarta.persistence.Id;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "post")
+@Getter
 @Entity
+@Table(name = "post")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "INT")
     private Integer id;
 
     @Column(name = "title", nullable = false, length = 50)

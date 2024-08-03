@@ -1,20 +1,20 @@
 package com.example.journeyednt.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@NoArgsConstructor
+@Entity
 @Table(name = "post_image")
-
-public class PostImage{
+public class PostImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id", columnDefinition = "INT")
     private Integer id;
 
     @Column(name = "content_type", nullable = false)
@@ -32,13 +32,14 @@ public class PostImage{
     private Post post;
 
     @Builder
-    public PostImage(Integer id,String contentType, byte[] data, boolean isPrimary, Post post) {
+    public PostImage(Integer id, String contentType, byte[] data, boolean isPrimary, Post post) {
         this.id = id;
         this.contentType = contentType;
         this.data = data;
         this.isPrimary = isPrimary;
         this.post = post;
     }
+
     public void updatePostImage(String contentType, byte[] data, boolean isPrimary) {
         this.contentType = contentType;
         this.data = data;
