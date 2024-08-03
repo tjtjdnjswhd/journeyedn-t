@@ -26,6 +26,13 @@ public class UserCreateDto {
     @NotBlank(message = "닉네임을 입력해주세요")
     private String nickName;
 
+    protected UserCreateDto() {
+    }
+
+    public static UserCreateDto createEmpty() {
+        return new UserCreateDto();
+    }
+
     public static UserCreateDto toDto(User user) {
         return UserCreateDto.builder()
                 .name(user.getName())

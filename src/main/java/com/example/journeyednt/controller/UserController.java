@@ -1,7 +1,6 @@
 package com.example.journeyednt.controller;
 
 import com.example.journeyednt.domain.user.UserCreateDto;
-import com.example.journeyednt.domain.user.UserDto;
 import com.example.journeyednt.domain.user.UserLoginDto;
 import com.example.journeyednt.entity.User;
 import com.example.journeyednt.exception.UserException;
@@ -23,38 +22,29 @@ public class UserController {
 
     private final UserService userService;
 
-    //    @Operation(summary = "회원가입", description = "유저를 생성합니다.")
-    @GetMapping("/createUser")
-    public String createUserForm(Model model) {
-        UserCreateDto userCreateDto = UserCreateDto.builder()
-                .name("")
-                .accountId("")
-                .passwordHash("")
-                .nickName("")
-                .build();
+    @GetMapping("/signup")
+    public String signup(Model model) {
+        UserCreateDto userCreateDto = UserCreateDto.createEmpty();
         model.addAttribute("userCreateDto", userCreateDto);
-        return "createUserForm";
+        return "signup";
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute @Valid UserCreateDto userCreateDto, Model model) {
+    public String signup(@ModelAttribute @Valid UserCreateDto userCreateDto, Model model) {
         User user = userService.createUser(userCreateDto);
         model.addAttribute("user", user);
         return "redirect:/users/login";
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        UserLoginDto userLoginDto = UserLoginDto.builder()
-                .accountId("")
-                .passwordHash("")
-                .build();
+    public String login(Model model) {
+        UserLoginDto userLoginDto = UserLoginDto.createEmpty();
         model.addAttribute("userLoginDto", userLoginDto);
-        return "loginForm";
+        return "login";
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute @Valid UserLoginDto userLoginDto, Model model) {
+    public String login(@ModelAttribute @Valid UserLoginDto userLoginDto, Model model) {
         if (!userService.findUserIsVisibleByAccountId(userLoginDto.getAccountId())) {
             throw new UserException(ErrorCode.USER_INACTIVE);
         }
@@ -74,17 +64,10 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("/{userId}")
-    public String deleteUser(@PathVariable("userId") Integer userId) {
+    @PostMapping("/{id}/withdraw")
+    public String withdraw(@PathVariable("id") Integer userId) {
         userService.updateVisibleUser(userId, false);
         userService.updateUserRole(userId, "정지");
         return "redirect:/";
-    }
-
-    @PostMapping("/admin/updateUser")
-    public String updateUser(@RequestParam("accountId") String accountId, @RequestParam("roleName") String roleName) {
-        UserDto userDto = userService.getUserById(accountId);
-        userService.updateUserRole(userDto.getId(), roleName);
-        return "redirect:/admin";
     }
 }

@@ -33,6 +33,13 @@ public class UserLoginDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    protected UserLoginDto() {
+    }
+
+    public static UserLoginDto createEmpty() {
+        return new UserLoginDto();
+    }
+
     public static UserLoginDto toDto(User user) {
         return UserLoginDto.builder()
                 .id(user.getId())
