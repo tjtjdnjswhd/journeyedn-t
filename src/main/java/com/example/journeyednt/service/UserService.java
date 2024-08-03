@@ -1,11 +1,9 @@
 package com.example.journeyednt.service;
 
 import com.example.journeyednt.config.PasswordEncoderConfig;
-import com.example.journeyednt.domain.PostDto;
 import com.example.journeyednt.domain.user.UserCreateDto;
 import com.example.journeyednt.domain.user.UserDto;
 import com.example.journeyednt.domain.user.UserLoginDto;
-import com.example.journeyednt.entity.Post;
 import com.example.journeyednt.entity.Role;
 import com.example.journeyednt.entity.User;
 import com.example.journeyednt.exception.UserException;
@@ -94,7 +92,7 @@ public class UserService {
     }
 
     public Boolean existsByNickname(String nickName) {
-        return userRepository.existsByNickname(nickName);
+        return userRepository.existsByNickName(nickName);
     }
 
     public User findByAccountId(String accountId) {
@@ -103,7 +101,7 @@ public class UserService {
     }
 
     public User findByNickname(String nickName) {
-        return userRepository.findByNickname(nickName)
+        return userRepository.findByNickName(nickName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 }
