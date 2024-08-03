@@ -1,7 +1,6 @@
 package com.example.journeyednt.domain.user;
 
-import com.example.journeyednt.domain.PostDto;
-import com.example.journeyednt.entity.Post;
+import com.example.journeyednt.domain.post.PostDto;
 import com.example.journeyednt.entity.Role;
 import com.example.journeyednt.entity.User;
 import jakarta.validation.constraints.Pattern;
@@ -9,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

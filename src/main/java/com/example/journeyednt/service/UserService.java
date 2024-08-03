@@ -102,6 +102,11 @@ public class UserService {
     public Boolean existsByNickname(String nickName) {
         return userRepository.existsByNickName(nickName);
     }
+    
+    @Transactional(readOnly = true)
+    public User findByPostId(Integer postId) {
+        return userRepository.findByPostId(postId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+    }
 
     @Transactional(readOnly = true)
     public User findByAccountId(String accountId) {

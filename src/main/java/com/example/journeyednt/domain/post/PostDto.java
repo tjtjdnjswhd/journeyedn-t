@@ -1,4 +1,4 @@
-package com.example.journeyednt.domain;
+package com.example.journeyednt.domain.post;
 
 import com.example.journeyednt.entity.Country;
 import com.example.journeyednt.entity.Post;
