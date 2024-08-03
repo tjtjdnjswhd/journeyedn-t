@@ -72,7 +72,7 @@ public class PostController {
     // 게시글 상세보기(상세페이지)
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
-        PostDto postDto = postService.getPostbyid(id);
+        PostDto postDto = postService.getPostById(id);
         model.addAttribute("post", postDto);
         return "postDetail";
     }
@@ -108,7 +108,7 @@ public class PostController {
     // 게시글 수정 폼
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") Integer id, Model model) {
-        PostDto postDto = postService.getPostbyid(id);
+        PostDto postDto = postService.getPostById(id);
         model.addAttribute("postedit", postDto);
         return "editPostform";
     }

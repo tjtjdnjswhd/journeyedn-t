@@ -49,7 +49,7 @@ public class PostService {
 
     // 게시글 상세보기
     @Transactional(readOnly = true)
-    public PostDto getPostbyid(Integer id) {
+    public PostDto getPostById(Integer id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글은 존재하지 않습니다. " + id));
         return PostDto.fromEntity(post);
@@ -97,11 +97,10 @@ public class PostService {
         return postRepository.updateUserPostsVisibility(userId, isVisible);
     }
 
-    // 검색 기능
-
     // 모든 공개게시글 찾기
+    @Transactional(readOnly = true)
     public List<PostDto> getAllPosts(String orderBy) {
-        if (orderBy.equals(ORDER_BY_RECENT)) {
+        if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             return postRepository.findAllPostsByOrderByCreatedAtDesc().stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
@@ -115,7 +114,7 @@ public class PostService {
     // 제목으로 공개 게시물 찾기
     @Transactional(readOnly = true)
     public List<PostDto> findVisiblePostsByTitle(String title, String orderBy) {
-        if (orderBy.equals(ORDER_BY_RECENT) || orderBy == null) {
+        if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             return postRepository.findByTitleAndIsVisibleTrueOrderByCreateAtDesc(title).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
@@ -129,7 +128,7 @@ public class PostService {
     // 특정 태그를 포함하는 게시글 찾기
     @Transactional(readOnly = true)
     public List<PostDto> getPostsByTag(String tag, String orderBy) {
-        if (orderBy.equals(ORDER_BY_RECENT) || orderBy == null) {
+        if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             return postRepository.findByTagOrderByCreateAtDesc(tag).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
@@ -137,7 +136,6 @@ public class PostService {
             return postRepository.findByTagOrderByRatingDesc(tag).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
-
         }
     }
 
@@ -150,7 +148,7 @@ public class PostService {
         Integer cityId = (Integer) ids[0];
         Integer countryId = (Integer) ids[1];
 
-        if (orderBy.equals(ORDER_BY_RECENT) || orderBy == null) {
+        if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             return postRepository.findByCityAndCountryOrderByCreateAt(cityId, countryId).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
@@ -158,12 +156,11 @@ public class PostService {
             return postRepository.findByCityAndCountryOrderByRating(cityId, countryId).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
-
         }
     }
 
     // 시/도, 시/군/구, 그리고 태그를 포함하는 공개게시물 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostDto> getPostsByCityCountryAndTag(String cityName, String countryName, String tag, String orderBy) {
         Object[] ids = countryRepository.findCityIdAndCountryIdByName(countryName)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 주소가 없습니다."));
@@ -171,7 +168,7 @@ public class PostService {
         Integer cityId = (Integer) ids[0];
         Integer countryId = (Integer) ids[1];
 
-        if (orderBy.equals(ORDER_BY_RECENT) || orderBy == null) {
+        if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             return postRepository.findByCityCountryAndTagOrderByCreateAt(cityId, countryId, tag).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
@@ -179,12 +176,11 @@ public class PostService {
             return postRepository.findByCityCountryAndTagOrderByRating(cityId, countryId, tag).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
-
         }
     }
 
     // 시/도, 시/군/구, 그리고 제목을 포함하는 공개게시물 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostDto> getPostsByCityCountryAndTitle(String cityName, String countryName, String title, String orderBy) {
         Object[] ids = countryRepository.findCityIdAndCountryIdByName(countryName)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 주소가 없습니다."));
@@ -192,7 +188,7 @@ public class PostService {
         Integer cityId = (Integer) ids[0];
         Integer countryId = (Integer) ids[1];
 
-        if (orderBy.equals(ORDER_BY_RECENT) || orderBy == null) {
+        if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             return postRepository.findByCityCountryAndTitleOrderByCreateAt(cityId, countryId, title).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
@@ -200,7 +196,6 @@ public class PostService {
             return postRepository.findByCityCountryAndTitleOrderByRating(cityId, countryId, title).stream()
                     .map(PostDto::fromEntity)
                     .collect(Collectors.toList());
-
         }
     }
 }
