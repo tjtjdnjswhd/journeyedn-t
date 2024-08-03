@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CountryService {
+
     private final CountryRepository countryRepository;
 
     // cityId로 city에 해당하는 countries 가져오기
@@ -48,6 +49,4 @@ public class CountryService {
 
         return result;
     }
-
-
 }

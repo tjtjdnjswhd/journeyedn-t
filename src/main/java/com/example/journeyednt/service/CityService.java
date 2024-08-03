@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CityService {
+
     private final CityRepository cityRepository;
     private final CountryRepository countryRepository;
 
@@ -40,8 +41,4 @@ public class CityService {
                 .countries(countries)
                 .build();
     }
-    // Query 문으로 city에 대한 country 가져오기
-
-
-
 }
