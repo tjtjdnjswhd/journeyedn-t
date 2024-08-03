@@ -2,9 +2,7 @@ package com.example.journeyednt.controller;
 
 import com.example.journeyednt.entity.PostImage;
 import com.example.journeyednt.service.PostImageService;
-import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,27 +12,10 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/post-images")
-public class PostImageController{
+@RequiredArgsConstructor
+public class PostImageController {
+
     private final PostImageService postImageService;
-
-    @Autowired
-    public PostImageController(PostImageService postImageService) {
-        this.postImageService = postImageService;
-    }
-
-    // CREATE: 새로운 PostImage를 생성하기 위한 폼을 반환
-    @GetMapping("/create")
-    public String createForm(Model model) {
-        model.addAttribute("postImage", new PostImage());
-        return "postImage/create";
-    }
-
-    // CREATE: 새로운 PostImage를 생성
-    @PostMapping("/create")
-    public String createPostImage(@ModelAttribute PostImage postImage) {
-        postImageService.savePostImage(postImage);
-        return "redirect:/post-images";
-    }
 
     // READ: postId에 해당하는 PostImage 목록을 반환
     @GetMapping("/post/{postId}")

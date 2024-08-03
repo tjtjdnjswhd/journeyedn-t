@@ -84,14 +84,6 @@ public class PostController {
         return "postForm";
     }
 
-/*  게시글 저장(생성) @AuthenticationPrincipal 해결 못해서 다른 방법 찾아서 코드 작성!
-    @PostMapping("/new")
-    public String savePost(@ModelAttribute PostDto postDto, @AuthenticationPrincipal User user) {
-        PostDto savedPost = postService.createPost(postDto, user);
-        return "redirect:/posts" + savedPost.getId();
-    }
-*/
-
     // 게시글 저장(생성)
     @PostMapping("/new")
     public String savePost(@ModelAttribute PostDto postDto, Principal principal) { // Principal 현재 인증된 사용자의 정보를 가져온다
@@ -103,7 +95,6 @@ public class PostController {
         return "redirect:/posts/" + savedPost.getId(); // 새로 생성된 게시글의 상세 페이지로 리다이렉트
         // html 파일 th:text="${postDto.user.nickname} 작성해야 닉네임 표시 가능
     }
-
 
     // 게시글 수정 폼
     @GetMapping("/{id}/edit")
@@ -131,22 +122,6 @@ public class PostController {
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable("id") Integer id) {
         postService.deletePost(id);
-        return "redirect:/posts";
-    }
-
-    // 모든 게시글의 공개 상태 변경 (벌크 업데이트, 일단 작성만 했습니다 삭제가능성 있음!)
-    @PostMapping("/update-visibility/all")
-    public String updateAllPostsVisibility(@RequestParam Boolean isVisible, Model model) {
-        int updatedCount = postService.updateAllPostsVisibility(isVisible);
-        model.addAttribute("updatedCount", updatedCount);
-        return "redirect:/posts";
-    }
-
-    // 특정 사용자의 모든 게시글 공개 상태를 변경 (벌크 업데이트, 일단 작성만 했습니다 삭제가능성 있음!)
-    @PostMapping("/update-visibility/user")
-    public String updateUserPostsVisibility(@RequestParam Integer userId, @RequestParam Boolean isVisible, Model model) {
-        int updatedCount = postService.updateUserPostsVisibility(userId, isVisible);
-        model.addAttribute("updatedCount", updatedCount);
         return "redirect:/posts";
     }
 }

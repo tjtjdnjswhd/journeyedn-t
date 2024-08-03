@@ -13,6 +13,7 @@ import java.util.Map;
 @RequestMapping("/api/country")
 @RequiredArgsConstructor
 public class CountryController {
+
     private final CountryService countryService;
 
     // City 이름, Country 이름과 아이디를 Map으로 반환하는 api
@@ -21,5 +22,4 @@ public class CountryController {
         Map<String, Map<String, Integer>> cityCountries = countryService.getCityCountryMapping();
         return ResponseEntity.ok(cityCountries);
     }
-
 }
