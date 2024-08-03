@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
+    boolean existsByIdAndUserId(Integer id, Integer userId);
+
     @Modifying
     @Query(value = "UPDATE Post p SET p.isVisible = :isVisible WHERE p.id = :id")
     int updatePostVisibility(@Param("id") Integer id, @Param("isVisible") Boolean isVisible);
@@ -47,4 +49,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findByIsVisibleTrueOrderByCreateAtDesc(Pageable pageable);
 
     List<Post> findByIsVisibleTrueOrderByRatingDesc(Pageable pageable);
+
 }

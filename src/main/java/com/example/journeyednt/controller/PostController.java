@@ -3,9 +3,12 @@ package com.example.journeyednt.controller;
 import com.example.journeyednt.domain.post.PostCreate;
 import com.example.journeyednt.domain.post.PostDto;
 import com.example.journeyednt.entity.User;
+import com.example.journeyednt.service.PostImageService;
 import com.example.journeyednt.service.PostService;
 import com.example.journeyednt.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final PostImageService postImageService;
     private final UserService userService;
 
     @GetMapping
@@ -37,6 +41,11 @@ public class PostController {
             posts = postService.getPosts(countryId, text, page, orderBy);
         }
 
+        for (PostDto postDto : posts) {
+            Integer primaryImgId = postImageService.getPostPrimaryImageByPostId(postDto.getId());
+            model.addAttribute("primaryImage" + postDto.getId(), primaryImgId);
+        }
+
         model.addAttribute("posts", posts);
         return "postSearch";
     }
@@ -46,8 +55,11 @@ public class PostController {
     public String detail(@PathVariable("id") Integer id, Model model) {
         PostDto postDto = postService.getPostById(id);
         User user = userService.findByPostId(postDto.getId());
+        List<Integer> imageIds = postImageService.getPostImageIdsByPostId(id);
+
         model.addAttribute("post", postDto);
         model.addAttribute("nickName", user.getNickName());
+        model.addAttribute("imageIds", imageIds);
         return "postDetail";
     }
 
@@ -80,7 +92,14 @@ public class PostController {
     // 게시글 수정
     @PostMapping("/{id}/edit")
     // PRG 패턴을 사용, 폼 제출 후 리다이렉트를 통해 페이지를 새로고침 했을 때 폼이 중복 제출되는 것을 방지
-    public String edit(@PathVariable("id") Integer id, @ModelAttribute PostCreate postCreate, RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable("id") Integer id, @ModelAttribute PostCreate postCreate, RedirectAttributes redirectAttributes, Principal principal) {
+        String nickName = principal.getName();
+        User loginUser = userService.findByNickname(nickName);
+
+        if (!postService.existsByIdAndUserId(id, loginUser.getId())) {
+            return "redirect:/posts/" + id;
+        }
+
         try {
             PostDto updatedPost = postService.updatePost(id, postCreate);
             redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 수정되었습니다.");
@@ -93,7 +112,14 @@ public class PostController {
 
     // 게시글 삭제
     @PostMapping("/{id}/delete")
-    public String deletePost(@PathVariable("id") Integer id) {
+    public String deletePost(@PathVariable("id") Integer id, Principal principal) {
+        String nickName = principal.getName();
+        User loginUser = userService.findByNickname(nickName);
+
+        if (!postService.existsByIdAndUserId(id, loginUser.getId())) {
+            return "redirect:/posts/" + id;
+        }
+
         postService.invisiblePost(id);
         return "redirect:/posts";
     }
