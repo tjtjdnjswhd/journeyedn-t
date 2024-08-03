@@ -7,17 +7,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-//아무런 매개변수가 없는 생성자를 생성하되 다른 패키지에 소속된 클래스는 접근을 불허한다
 @Table(name = "user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "INT")
     private Integer id;
-    // 회원 아이디
+
     @Column(name = "account_id", nullable = false, unique = true, length = 20)
     private String accountId;
 
