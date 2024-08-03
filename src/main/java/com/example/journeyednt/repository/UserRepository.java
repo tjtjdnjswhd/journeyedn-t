@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByAccountId(String accountId);
 
+    Optional<User> findByPostId(Integer postId);
+
     boolean existsByAccountId(String accountId);
 
     boolean existsByNickName(String nickName);
@@ -37,4 +39,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("UPDATE User u SET u.role = :role WHERE u.accountId = :accountId")
     int updateUserRoleByAccountId(@Param("accountId") String accountId, @Param("role") Role role);
+
 }

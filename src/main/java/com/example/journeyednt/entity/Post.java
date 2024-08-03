@@ -43,7 +43,7 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "tag")
+    @Column(name = "tags")
     @Convert(converter = StringListConverter.class)
     private List<String> tags;
 

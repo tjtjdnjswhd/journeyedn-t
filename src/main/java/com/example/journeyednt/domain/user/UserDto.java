@@ -1,7 +1,6 @@
 package com.example.journeyednt.domain.user;
 
-import com.example.journeyednt.domain.PostDto;
-import com.example.journeyednt.entity.Post;
+import com.example.journeyednt.domain.post.PostDto;
 import com.example.journeyednt.entity.Role;
 
 import com.example.journeyednt.entity.User;
