@@ -5,6 +5,7 @@ import com.example.journeyednt.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class IndexController {
 
     private final PostService postService;
 
+    @GetMapping("/")
     public String index(@RequestParam(defaultValue = "1", required = false) Integer page, Model model) {
         List<PostDto> posts = postService.getPosts(page, PostService.ORDER_BY_RECENT);
         List<PostDto> notices = postService.getNotices(5);
