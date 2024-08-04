@@ -7,7 +7,6 @@ import com.example.journeyednt.entity.Post;
 import com.example.journeyednt.entity.PostImage;
 import com.example.journeyednt.entity.User;
 import com.example.journeyednt.repository.CountryRepository;
-import com.example.journeyednt.repository.PostImageRepository;
 import com.example.journeyednt.repository.PostRepository;
 import com.example.journeyednt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -87,7 +85,6 @@ public class PostService {
         post.updatePost(
                 postCreate.getTitle(),
                 postCreate.getContent(),
-                LocalDateTime.now(),
                 false,
                 postCreate.getTags(),
                 postCreate.getRating()
