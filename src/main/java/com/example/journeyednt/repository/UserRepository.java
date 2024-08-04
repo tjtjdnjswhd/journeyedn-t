@@ -37,6 +37,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int updateUserVisibleById(@Param("Id") Integer Id, @Param("isVisible") Boolean isVisible);
 
     @Modifying
+    @Query("UPDATE User u SET u.isVisible = :isVisible WHERE u.accountId = :accountId")
+    int updateUserVisibleByAccountId(@Param("accountId") String accountId, @Param("isVisible") Boolean isVisible);
+
+    @Modifying
     @Query("UPDATE User u SET u.role = :role WHERE u.accountId = :accountId")
     int updateUserRoleByAccountId(@Param("accountId") String accountId, @Param("role") Role role);
 

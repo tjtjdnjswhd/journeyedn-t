@@ -1,8 +1,8 @@
 package com.example.journeyednt.controller;
 
 import com.example.journeyednt.domain.post.PostDto;
+import com.example.journeyednt.domain.user.UserDto;
 import com.example.journeyednt.entity.Role;
-import com.example.journeyednt.entity.User;
 import com.example.journeyednt.service.PostService;
 import com.example.journeyednt.service.RoleService;
 import com.example.journeyednt.service.UserService;
@@ -39,7 +39,7 @@ public class AdminController {
     @PostMapping("/notice")
     public String addNotice(@RequestParam("title") String title, @RequestParam("content") String content, Principal principal) {
         String nickName = principal.getName();
-        User loginUser = userService.findByNickname(nickName);
+        UserDto loginUser = userService.findByNickname(nickName);
         PostDto notice = postService.createNotice(title, content, loginUser.getId());
 
         return "redirect:/admin/notice/" + notice.getId();

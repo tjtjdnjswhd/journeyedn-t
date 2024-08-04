@@ -1,9 +1,9 @@
 package com.example.journeyednt.service;
 
-import com.example.journeyednt.config.PasswordEncoderConfig;
-import com.example.journeyednt.domain.user.UserCreateDto;
+import com.example.journeyednt.security.PasswordEncoderConfig;
+import com.example.journeyednt.domain.user.UserSignup;
 import com.example.journeyednt.domain.user.UserDto;
-import com.example.journeyednt.domain.user.UserLoginDto;
+import com.example.journeyednt.domain.user.UserLogin;
 import com.example.journeyednt.entity.Role;
 import com.example.journeyednt.entity.User;
 import com.example.journeyednt.exception.UserException;
@@ -13,8 +13,6 @@ import com.example.journeyednt.result.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +24,9 @@ public class UserService {
 
     // 회원 생성
     @Transactional
-    public User createUser(UserCreateDto userCreateDto) {
-        boolean accountExists = existsByAccountId(userCreateDto.getAccountId());
-        boolean nicknameExists = existsByNickname(userCreateDto.getNickName());
+    public UserDto createUser(UserSignup userSignup) {
+        boolean accountExists = existsByAccountId(userSignup.getAccountId());
+        boolean nicknameExists = existsByNickname(userSignup.getNickName());
 
         if (nicknameExists) {
             throw new UserException(ErrorCode.USER_NICKNAME_EXISTS);
@@ -37,16 +35,23 @@ public class UserService {
             throw new UserException(ErrorCode.USER_ACCOUNT_ID_EXISTS);
         }
 
-        User user = userCreateDto.toEntity();
-        userRepository.save(user);
-        return user;
+        String passwordHash = passwordEncoderConfig.passwordEncoder().encode(userSignup.getPassword());
+
+        User user = User.builder()
+                .name(userSignup.getName())
+                .accountId(userSignup.getAccountId())
+                .passwordHash(passwordHash)
+                .nickName(userSignup.getNickName())
+                .build();
+
+        return UserDto.fromEntity(userRepository.save(user));
     }
 
     // 로그인
     @Transactional(readOnly = true)
-    public User loginUser(UserLoginDto userLoginDto) {
-        User user = findByAccountId(userLoginDto.getAccountId());
-        if (!passwordEncoderConfig.passwordEncoder().matches(userLoginDto.getPasswordHash(), user.getPasswordHash())) {
+    public UserDto loginUser(UserLogin userLoginDto) {
+        UserDto user = findByAccountId(userLoginDto.getAccountId());
+        if (!passwordEncoderConfig.passwordEncoder().matches(userLoginDto.getPassword(), user.getPasswordHash())) {
             throw new UserException(ErrorCode.WRONG_PASSWORD);
         }
 
@@ -65,10 +70,15 @@ public class UserService {
         userRepository.updateUserVisibleById(Id, visible);
     }
 
+    @Transactional
+    public void updateVisibleUser(String accountId, Boolean visible) {
+        userRepository.updateUserVisibleByAccountId(accountId, visible);
+    }
+
     // 권한 조회
     @Transactional(readOnly = true)
-    public Optional<Role> findUserRoleByAccountId(String accountId) {
-        return userRepository.findRoleByAccountId(accountId);
+    public Role findUserRoleByAccountId(String accountId) {
+        return userRepository.findRoleByAccountId(accountId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 
     // 권한 변경
@@ -93,7 +103,7 @@ public class UserService {
     public UserDto getUserById(String accountId) {
         User user = userRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-        return UserDto.toDto(user);
+        return UserDto.fromEntity(user);
     }
 
     // 검증 로직 및 유틸 로직
@@ -106,21 +116,19 @@ public class UserService {
     public Boolean existsByNickname(String nickName) {
         return userRepository.existsByNickName(nickName);
     }
-    
+
     @Transactional(readOnly = true)
-    public User findByPostId(Integer postId) {
-        return userRepository.findByPostId(postId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+    public UserDto findByPostId(Integer postId) {
+        return userRepository.findByPostId(postId).map(UserDto::fromEntity).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
-    public User findByAccountId(String accountId) {
-        return userRepository.findByAccountId(accountId)
-                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+    public UserDto findByAccountId(String accountId) {
+        return userRepository.findByAccountId(accountId).map(UserDto::fromEntity).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
-    public User findByNickname(String nickName) {
-        return userRepository.findByNickName(nickName)
-                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
+    public UserDto findByNickname(String nickName) {
+        return userRepository.findByNickName(nickName).map(UserDto::fromEntity).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
     }
 }
