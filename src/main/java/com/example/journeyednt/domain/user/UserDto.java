@@ -1,6 +1,5 @@
 package com.example.journeyednt.domain.user;
 
-import com.example.journeyednt.domain.post.PostDto;
 import com.example.journeyednt.entity.Role;
 
 import com.example.journeyednt.entity.User;
@@ -8,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -20,12 +17,11 @@ public class UserDto {
     private String name;
     private String nickName;
     private Role role;
-    private List<PostDto> post;
     private Boolean isVisible;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static UserDto toDto(User user) {
+    public static UserDto fromEntity(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .accountId(user.getAccountId())
@@ -36,11 +32,6 @@ public class UserDto {
                 .updatedAt(user.getUpdatedAt())
                 .isVisible(user.getIsVisible())
                 .role(user.getRole())
-                .post(user.getPost() != null ?
-                        user.getPost().stream()
-                                .map(PostDto::fromEntity)
-                                .collect(Collectors.toList())
-                        : null)
                 .build();
     }
 
@@ -51,5 +42,4 @@ public class UserDto {
                 .role(this.role)
                 .build();
     }
-
 }

@@ -54,7 +54,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
         PostDto postDto = postService.getPostById(id);
-        User user = userService.findByPostId(postDto.getId());
+        UserDto user = userService.findByPostId(postDto.getId());
         List<Integer> imageIds = postImageService.getPostImageIdsByPostId(id);
 
         model.addAttribute("post", postDto);
@@ -75,7 +75,7 @@ public class PostController {
     public String create(@ModelAttribute PostCreate postCreate, Principal principal) { // Principal 현재 인증된 사용자의 정보를 가져온다
         String nickname = principal.getName(); // 닉네임을 가져옴
 
-        User user = userService.findByNickname(nickname); // 닉네임으로 User 객체 조회
+        UserDto user = userService.findByNickname(nickname); // 닉네임으로 User 객체 조회
 
         PostDto savedPost = postService.createPost(postCreate, user.getId());
         return "redirect:/posts/" + savedPost.getId();
@@ -94,7 +94,7 @@ public class PostController {
     // PRG 패턴을 사용, 폼 제출 후 리다이렉트를 통해 페이지를 새로고침 했을 때 폼이 중복 제출되는 것을 방지
     public String edit(@PathVariable("id") Integer id, @ModelAttribute PostCreate postCreate, RedirectAttributes redirectAttributes, Principal principal) {
         String nickName = principal.getName();
-        User loginUser = userService.findByNickname(nickName);
+        UserDto loginUser = userService.findByNickname(nickName);
 
         if (!postService.existsByIdAndUserId(id, loginUser.getId())) {
             return "redirect:/posts/" + id;
@@ -114,7 +114,7 @@ public class PostController {
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable("id") Integer id, Principal principal) {
         String nickName = principal.getName();
-        User loginUser = userService.findByNickname(nickName);
+        UserDto loginUser = userService.findByNickname(nickName);
 
         if (!postService.existsByIdAndUserId(id, loginUser.getId())) {
             return "redirect:/posts/" + id;
