@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Notice</title>
+    <th:block th:replace="~{staticFile :: style}"></th:block>
+</head>
+<body>
+<header th:replace="~{header :: header}"></header>
+
+<div class="main-wrapper">
+    <div class="post-wrap">
+
+        <section class="post-header d-flex flex-column w-100">
+            <h2 class="sr-only">게시글 헤더</h2>
+            <div class="d-flex justify-content-between">
+                <h2 class="post-title" th:text="${title}"></h2>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="post-body">
+            <h2 class="sr-only">게시글 바디</h2>
+            <div class="fsi-20" th:text="${content}"></div>
+        </section>
+
+        <hr>
+
+        <section class="post-btn-container d-flex justify-content-end" sec:authorize="hasRole('Admin')">
+            <button class="btn btn-yellow fsi-24 fw-medium">
+                <a th:href="@{/admin/notice/{id}/edit(id=*{id})}">수정</a>
+            </button>
+            <button class="btn btn-yellow fsi-24 fw-medium">
+                <a th:href="@{/admin/notice/{id}/delete(id=*{id})}">삭제</a>
+            </button>
+        </section>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete notice</title>
+</head>
+<body>
+
+<form id="deleteForm" method="post">
+</form>
+
+<script>
+    window.addEventListener('load', () => {
+        if (confirm("해당 공지를 삭제하시겠습니까?")) {
+            let form = document.getElementById('deleteForm');
+            form.submit();
+        } else {
+            location.href = "/";
+        }
+    })
+</script>
+</body>
+</html>

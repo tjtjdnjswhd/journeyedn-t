@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <th:block th:replace="~{staticFile :: style}"></th:block>
+</head>
+<body>
+<header th:replace="~{header :: header}"></header>
+
+<main>
+    <div class="main-wrapper">
+        <section class="my-4">
+            <h2 class="fsi-40">권한 변경</h2>
+
+            <form th:action="@{/admin/users/role}" method="post">
+                <div class="d-flex gap-5 role-change">
+                    <div class="flex-grow-1">
+                        <label for="account-id" class="form-label fsi-32">유저 Id</label>
+                        <input type="number" name="accountId" id="account-id" class="form-control">
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <label for="roleName" class="form-label fsi-32">권한</label>
+                        <select name="roleName" id="roleName" class="form-select" th:each="role : ${roles}">
+                            <option th:value="${role.name}" th:text="${role.name}"></option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-yellow align-self-end">변경</button>
+                </div>
+            </form>
+        </section>
+
+        <section>
+            <h2 class="fsi-40">공지 작성</h2>
+
+            <form th:action="@{/admin/notice}" method="post">
+                <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
+                <input type="text" name="title" id="post-title" class="form-control mb-2">
+
+                <label for="post-content" class="form-label fsi-32 fw-medium">본문</label>
+                <textarea name="content" id="post-content" class="form-control mb-3" rows="12"></textarea>
+
+                <button class="btn btn-yellow" type="submit">작성</button>
+            </form>
+
+        </section>
+    </div>
+</main>
+
+<script th:replace="staticFile :: script"></script>
+
+</body>
+</html>

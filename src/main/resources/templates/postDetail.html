@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post create</title>
+    <th:block th:replace="~{staticFile :: style}"></th:block>
+</head>
+<body>
+<header th:replace="~{header :: header}"></header>
+
+<main>
+    <div class="main-wrapper">
+        <div class="post-wrap" th:object="${post}">
+            <section class="post-img-carousel">
+                <div id="postImgCarousel" class="carousel slide">
+
+                    <h2 class="sr-only">게시글 이미지 캐러셀</h2>
+                    <div class="carousel-inner">
+                        <th:block th:each="imgId : ${imageIds}">
+                            <div class="carousel-item active">
+                                <img th:src="@{/api/post-images/{id}(id=${imgId})}" alt="" class="w-100">
+                            </div>
+                        </th:block>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#postImgCarousel"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#postImgCarousel"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="post-header d-flex flex-column w-100">
+                <h2 class="sr-only">게시글 헤더</h2>
+                <div class="d-flex justify-content-between">
+                    <h2 class="post-title" th:text="*{title}"></h2>
+                    <div class="rating">
+                        <svg class="rating-off" width="24" height="21" viewBox="0 0 24 21" fill="grey"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"/>
+                        </svg>
+
+                        <svg class="rating-off" width="24" height="21" viewBox="0 0 24 21" fill="grey"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"/>
+                        </svg>
+
+                        <svg class="rating-off" width="24" height="21" viewBox="0 0 24 21" fill="grey"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"/>
+                        </svg>
+                        <svg class="rating-on" width="24" height="21" viewBox="0 0 24 21" fill="grey"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"/>
+                        </svg>
+                        <svg class="rating-on" width="24" height="21" viewBox="0 0 24 21" fill="grey"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <span class="fsi-20 fw-medium" th:text="${writerNickName}"></span>
+
+                <div class="d-flex justify-content-between">
+                    <span class="fsi-20 fw-medium" th:text="*{#dates.format(createdAt, 'YYYY.MM.DD')}"></span>
+
+                    <span class="fsi-20 fw-medium" th:text="${address}"></span>
+                </div>
+            </section>
+
+            <hr>
+
+            <section class="post-body">
+                <h2 class="sr-only">게시글 바디</h2>
+                <div class="fsi-20" th:text="*{content}"></div>
+                <section class="post-tag-container">
+                    <h3 class="sr-only">게시글 태그 목록</h3>
+                    <img th:src="@{/img/tag.svg}" alt="">
+                    <th:block th:each="tag : *{tags}">
+                        <span class="post-tag" th:text="${tag}"></span>
+                    </th:block>
+                </section>
+            </section>
+
+            <hr>
+
+            <section class="post-btn-container d-flex justify-content-end"
+                     th:if="${#strings.equals(writerAccountId, currentUser.accountId)}">
+                <button class="btn btn-yellow fsi-24 fw-medium">
+                    <a th:href="@{/posts/{id}/edit(id=*{id})}">수정</a>
+                </button>
+                <button class="btn btn-yellow fsi-24 fw-medium">
+                    <a th:href="@{/posts/{id}/delete(id=*{id})}">삭제</a>
+                </button>
+            </section>
+        </div>
+    </div>
+
+    <button class="btn-scroll-up" role="button"><img th:src="@{/img/scroll_up.svg}" alt=""></button>
+</main>
+
+<script th:replace="staticFile :: script"></script>
+<script th:src="@{/js/scrollUpBtn.js}"></script>
+<script>
+    const carouselElement = document.querySelector('#postImgCarousel');
+    const carousel = new bootstrap.Carousel(carouselElement, {});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <th:block th:replace="~{staticFile :: style}"></th:block>
+</head>
+<body>
+<header th:replace="~{header :: header}"></header>
+
+<main>
+    <section>
+        <h2 class="sr-only">메인 이미지</h2>
+        <img class="main-img" th:src="@{/img/mainImg.png}" alt="">
+    </section>
+
+    <article class="main-wrapper">
+        <section class="notice-container">
+            <h2 class="sr-only">공지사항 목록</h2>
+            <div class="d-flex align-items-center mb-4">
+                <img th:src="@{/img/Alarm.svg}" alt="공지사항 알림">
+                <span class="fsi-30 ms-3">공지사항</span>
+            </div>
+
+            <th:block th:each="notice : ${notices}">
+                <div class="notice-wrap">
+                    <div class="notice">
+                        <a th:href="@{/admin/notice/{id}(id=${notice.id})}">
+                            <img th:src="@{/img/Chevron Right.svg}" alt="" height="51">
+                        </a>
+                        <span class="d-block fw-medium"><a th:href="@{/admin/notice/{id}(id=${notice.id})}"
+                                                           th:text="${#dates.format(notice.createdAt, 'YYYY-MM-DD')}"></a></span>
+                        <span class="d-block fw-medium"><a th:href="@{/admin/notice/{id}(id=${notice.id})}"
+                                                           th:text="${notice.title}"></a></span>
+                    </div>
+                </div>
+            </th:block>
+        </section>
+
+        <section>
+            <h2 class="sr-only">글 목록</h2>
+
+            <div class="row row-cols-4 g-5">
+                <th:block th:each="post : ${posts}">
+                    <div class="col">
+                        <div class="card overflow-hidden">
+                            <img class="card-img-top" th:src="@{/api/post-images/posts/{id}(id=${post.id})}" alt="">
+                            <div class="p-2 bg-dark bg-opacity-50">
+                                <div class="d-flex justify-content-between">
+                                    <h3 class="card-title" th:text="${post.title}">제목</h3>
+                                    <span class="card-text" th:text="${post.user.nickName}">작성자</span>
+                                </div>
+                                <div class="ellipsis">
+                                    <p class="card-text" th:text="${post.content}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </section>
+    </article>
+
+    <article class="city-ranking">
+        <h3 class="d-inline me-4">Top N 지역</h3>
+        <button class="btn d-inline" role="button"><img th:src="@{/img/CloseButton.svg}" alt=""></button>
+        <ol>
+            <th:block th:each="topCityName : ${topCity}">
+                <li th:text="${topCityName}"></li>
+            </th:block>
+        </ol>
+    </article>
+</main>
+
+<footer class="d-flex justify-content-center">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:if="${page != 1}">
+                <a th:href="@{/{url}(url=${url}, page=${page - 1})}" class="page-link">«</a>
+            </li>
+
+            <li class="page-item" th:classappend="${page == 1} ? 'active' : ''">
+                <a th:href="@{{url}(url=${url}, page=1)}" class="page-link">1</a>
+            </li>
+            <li class="page-item" th:classappend="${page == 2} ? 'active' : ''">
+                <a th:href="@{{url}(url=${url}, page=2)}" class="page-link">2</a>
+            </li>
+            <li class="page-item" th:classappend="${page == 3} ? 'active' : ''">
+                <a th:href="@{{url}(url=${url}, page=3)}" class="page-link">3</a>
+            </li>
+            <li class="page-item" th:classappend="${page == 4} ? 'active' : ''">
+                <a th:href="@{{url}(url=${url}, page=4)}" class="page-link">4</a>
+            </li>
+            <li class="page-item" th:classappend="${page == 5} ? 'active' : ''">
+                <a th:href="@{{url}(url=${url}, page=5)}" class="page-link">5</a>
+            </li>
+            <li class="page-item" th:classappend="${page == 6} ? 'active' : ''">
+                <a th:href="@{{url}(url=${url}, page=6)}" class="page-link">6</a>
+            </li>
+            <li class="page-item">
+                <a th:href="@{{url}(url=${url}, page=2)}" class="page-link">»</a>
+            </li>
+        </ul>
+    </nav>
+</footer>
+
+<th:block th:replace="~{staticFile :: script}"></th:block>
+<script th:src="@{/js/cityRanking.js}"></script>
+</body>
+</html>
