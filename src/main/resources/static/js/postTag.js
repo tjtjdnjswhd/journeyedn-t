@@ -32,7 +32,7 @@ function addTag(text) {
   tagRemove.role = 'button';
 
   const closeTagImg = document.createElement('img');
-  closeTagImg.src = "/assets/img/CloseButton.svg";
+  closeTagImg.src = "/img/CloseButton.svg";
   closeTagImg.height = 20;
   tagRemove.appendChild(closeTagImg);
 

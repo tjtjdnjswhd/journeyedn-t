@@ -14,7 +14,7 @@
             <div class="account text-center">
                 <h2 class="fsi-40">회원가입</h2>
                 <form th:object="${userSignup}" method="post">
-
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="d-flex account-input-wrap">
                         <img th:src="@{/img/accountid_icon.svg}" alt="">
                         <input type="text" th:field="*{accountId}" class="form-control border-0 fw-medium"
@@ -45,7 +45,7 @@
     </div>
 </main>
 
-<script th:replace="staticFile :: script"></script>
+<script th:replace="~{staticFile :: script}"></script>
 
 </body>
 </html>

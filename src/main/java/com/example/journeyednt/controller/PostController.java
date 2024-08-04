@@ -26,7 +26,7 @@ public class PostController {
 
     @GetMapping
     public String search(@RequestParam(defaultValue = "1") Integer page,
-                         @RequestParam String text,
+                         @RequestParam(required = false) String text,
                          @RequestParam(required = false) Integer countryId,
                          @RequestParam(required = false) String orderBy,
                          Model model,

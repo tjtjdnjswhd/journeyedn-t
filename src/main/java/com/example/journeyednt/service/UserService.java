@@ -28,6 +28,7 @@ public class UserService {
         boolean accountExists = existsByAccountId(userSignup.getAccountId());
         boolean nicknameExists = existsByNickname(userSignup.getNickName());
 
+        Role role = roleRepository.findByName("User").orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
         if (nicknameExists) {
             throw new UserException(ErrorCode.USER_NICKNAME_EXISTS);
         }
@@ -42,6 +43,8 @@ public class UserService {
                 .accountId(userSignup.getAccountId())
                 .passwordHash(passwordHash)
                 .nickName(userSignup.getNickName())
+                .isVisible(false)
+                .role(role)
                 .build();
 
         return UserDto.fromEntity(userRepository.save(user));

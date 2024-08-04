@@ -3,8 +3,6 @@ package com.example.journeyednt.controller;
 import com.example.journeyednt.domain.user.UserDto;
 import com.example.journeyednt.domain.user.UserSignup;
 import com.example.journeyednt.domain.user.UserLogin;
-import com.example.journeyednt.exception.UserException;
-import com.example.journeyednt.result.ErrorCode;
 import com.example.journeyednt.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -31,7 +29,7 @@ public class UserController {
         return "signup";
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public String signup(@ModelAttribute @Valid UserSignup userCreateDto, Model model) {
         UserDto user = userService.createUser(userCreateDto);
         model.addAttribute("user", user);
@@ -43,23 +41,6 @@ public class UserController {
         UserLogin userLogin = UserLogin.createEmpty();
         model.addAttribute("userLogin", userLogin);
         return "login";
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute @Valid UserLogin userLoginDto, Model model) {
-        UserDto loginUser = userService.findByAccountId(userLoginDto.getAccountId());
-
-        if (!loginUser.getIsVisible()) {
-            throw new UserException(ErrorCode.USER_INACTIVE);
-        }
-
-        if (userService.findUserRoleByAccountId(userLoginDto.getAccountId()).getName().equals("Ban")) {
-            throw new UserException(ErrorCode.ACCESS_DENIED);
-        }
-
-        UserDto user = userService.loginUser(userLoginDto);
-        model.addAttribute("user", user);
-        return "redirect:/";
     }
 
     @PostMapping("/withdraw")
