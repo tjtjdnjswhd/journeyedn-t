@@ -97,6 +97,10 @@ public class PostService {
         return PostDto.fromEntity(updatedPost);
     }
 
+    public int updateNotice(Integer id, String title, String content) {
+        return postRepository.updateNotice(id, title, content);
+    }
+
     private void uploadImage(PostCreate postCreate, Post post) throws IOException {
         MultipartFile primaryImage = postCreate.getPrimaryImage();
         if (primaryImage != null && !primaryImage.isEmpty()) {
@@ -144,7 +148,7 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByIsVisibleTrueOrderByCreateAtDesc(pageable);
+            posts = postRepository.findByIsVisibleTrueOrderByCreatedAtDesc(pageable);
         } else {
             posts = postRepository.findByIsVisibleTrueOrderByRatingDesc(pageable);
         }
@@ -183,7 +187,7 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByCreateAtDesc(countryId, pageable);
+            posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByCreatedAtDesc(countryId, pageable);
         } else {
             posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByRatingDesc(countryId, pageable);
         }

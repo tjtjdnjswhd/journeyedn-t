@@ -45,6 +45,29 @@ public class AdminController {
         return "redirect:/admin/notice/" + notice.getId();
     }
 
+    @GetMapping("/notice/{id}/edit")
+    public String editNotice(@PathVariable Integer id, Model model) {
+        PostDto notice = postService.getPostById(id);
+        if (!notice.getIsNotice()) {
+            return "redirect:/index";
+        }
+
+        model.addAttribute("notice", notice);
+        return "noticeEdit";
+    }
+
+    @PostMapping("/notice/{id}/edit")
+    public String editNotice(@PathVariable Integer id, @RequestParam("title") String title, @RequestParam("content") String content) {
+        PostDto notice = postService.getPostById(id);
+        if (!notice.getIsNotice()) {
+            return "redirect:/index";
+        }
+
+        postService.updateNotice(id, title, content);
+
+        return "/admin/notice/" + id;
+    }
+
     @GetMapping("/notice/{id}")
     public String getNotice(@PathVariable Integer id, Model model) {
         PostDto notice = postService.getPostById(id);
@@ -56,5 +79,17 @@ public class AdminController {
         model.addAttribute("content", notice.getContent());
 
         return "notice";
+    }
+
+    @GetMapping("/notice/{id}/delete")
+    public String deleteNotice(@PathVariable Integer id, Model model) {
+        model.addAttribute("id", id);
+        return "deleteNotice";
+    }
+
+    @PostMapping("/notice/{id}/delete")
+    public String deleteNotice(@PathVariable Integer id) {
+        postService.invisiblePost(id);
+        return "redirect:/index";
     }
 }

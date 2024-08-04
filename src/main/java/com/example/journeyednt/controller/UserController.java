@@ -26,8 +26,8 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(Model model) {
-        UserSignup userCreateDto = UserSignup.createEmpty();
-        model.addAttribute("userCreateDto", userCreateDto);
+        UserSignup userSignup = UserSignup.createEmpty();
+        model.addAttribute("userSignup", userSignup);
         return "signup";
     }
 
@@ -40,8 +40,8 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        UserLogin userLoginDto = UserLogin.createEmpty();
-        model.addAttribute("userLoginDto", userLoginDto);
+        UserLogin userLogin = UserLogin.createEmpty();
+        model.addAttribute("userLogin", userLogin);
         return "login";
     }
 

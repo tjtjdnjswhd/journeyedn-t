@@ -84,18 +84,20 @@ public class UserService {
     // 권한 변경
     @Transactional
     public void updateUserRole(Integer userId, String roleName) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
-        userRepository.updateUserRoleById(userId, role);
+        user.setRole(role);
+        userRepository.save(user);
     }
 
     @Transactional
     public void updateUserRole(String accountId, String roleName) {
+        User user = userRepository.findByAccountId(accountId).orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUND));
-
-        userRepository.updateUserRoleByAccountId(accountId, role);
+        user.setRole(role);
+        userRepository.save(user);
     }
 
     // 회원 조회 - accountId

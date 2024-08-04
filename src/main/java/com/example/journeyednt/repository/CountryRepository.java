@@ -33,4 +33,38 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
     // City의 이름, Country의 이름, id를 가져오는 쿼리
     @Query("SELECT c.city.name, c.name, c.id FROM Country c")
     List<Object[]> findAllCityCountry();
+
+    @Query(value = """
+            SELECT CONCAT(c.name, ' ', ct.name) FROM
+                (SELECT ct.id, ct.city_id, ct.name, AVG(p.rating) AS avg_rating
+                FROM Country ct
+                JOIN Post p
+                ON ct.id = p.cdd_id
+                GROUP BY ct.id
+                ORDER BY avg_rating) AS ct
+            JOIN City c
+            ON ct.city_id = c.id
+            LIMIT :count
+            """, nativeQuery = true)
+    List<String> findRatingTopNames(@Param("count") Integer count);
+
+    @Query(value = """
+            SELECT CONCAT(c.name, ' ', ct.name)
+            FROM Country ct
+            JOIN City c
+            ON ct.city_id = c.id
+            JOIN blog.post p
+            ON ct.id = p.cdd_id
+            WHERE p.id = :postId
+            """, nativeQuery = true)
+    String findFullNameByPostId(Integer postId);
+
+    @Query(value = """
+            SELECT CONCAT(c.name, ' ', ct.name)
+            FROM Country ct
+            JOIN City c
+            ON ct.city_id = c.id
+            WHERE ct.id = :id
+            """, nativeQuery = true)
+    String findFullNameById(@Param("id") Integer id);
 }

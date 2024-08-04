@@ -30,4 +30,6 @@ public class PostCreate {
 
     @NotNull
     private Integer countryId;
+
+
 }

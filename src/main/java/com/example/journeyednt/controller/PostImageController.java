@@ -17,8 +17,18 @@ public class PostImageController {
     private final PostImageService postImageService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> getPostImagesByPostId(@PathVariable Integer id) {
+    public ResponseEntity<Resource> getPostImageById(@PathVariable Integer id) {
         PostImage postImage = postImageService.findById(id);
+        ByteArrayResource resource = new ByteArrayResource(postImage.getData());
+        MediaType mediaType = MediaType.parseMediaType(postImage.getContentType());
+
+        return ResponseEntity.ok().contentType(mediaType).body(resource);
+    }
+
+    @GetMapping("/posts/{postId}")
+    public ResponseEntity<Resource> getPostPrimaryImageByPostId(@PathVariable Integer postId) {
+        Integer imageId = postImageService.getPostPrimaryImageByPostId(postId);
+        PostImage postImage = postImageService.findById(imageId);
         ByteArrayResource resource = new ByteArrayResource(postImage.getData());
         MediaType mediaType = MediaType.parseMediaType(postImage.getContentType());
 

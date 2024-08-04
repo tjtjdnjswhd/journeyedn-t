@@ -3,9 +3,8 @@ package com.example.journeyednt.controller;
 import com.example.journeyednt.domain.post.PostCreate;
 import com.example.journeyednt.domain.post.PostDto;
 import com.example.journeyednt.domain.user.UserDto;
-import com.example.journeyednt.service.PostImageService;
-import com.example.journeyednt.service.PostService;
-import com.example.journeyednt.service.UserService;
+import com.example.journeyednt.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +22,15 @@ public class PostController {
     private final PostService postService;
     private final PostImageService postImageService;
     private final UserService userService;
+    private final CountryService countryService;
 
     @GetMapping
     public String search(@RequestParam(defaultValue = "1") Integer page,
                          @RequestParam String text,
                          @RequestParam(required = false) Integer countryId,
                          @RequestParam(required = false) String orderBy,
-                         Model model) {
+                         Model model,
+                         HttpServletRequest request) {
         List<PostDto> posts;
         if (countryId == null) {
             posts = postService.getPosts(text, page, orderBy);
@@ -39,32 +40,42 @@ public class PostController {
             posts = postService.getPosts(countryId, text, page, orderBy);
         }
 
-        for (PostDto postDto : posts) {
-            Integer primaryImgId = postImageService.getPostPrimaryImageByPostId(postDto.getId());
-            model.addAttribute("primaryImage" + postDto.getId(), primaryImgId);
+        if (countryId != null) {
+            String address = countryService.getFullNameByPostId(countryId);
+            model.addAttribute("address", address);
         }
 
+        model.addAttribute("page", page);
+        model.addAttribute("url", request.getRequestURI());
         model.addAttribute("posts", posts);
         return "postSearch";
     }
 
     // 게시글 상세보기(상세페이지)
     @GetMapping("/{id}")
-    public String detail(@PathVariable("id") Integer id, Model model) {
+    public String detail(@PathVariable("id") Integer id, Model model, Principal principal) {
         PostDto postDto = postService.getPostById(id);
         UserDto user = userService.findByPostId(postDto.getId());
+
         List<Integer> imageIds = postImageService.getPostImageIdsByPostId(id);
+        String addressName = countryService.getFullNameByPostId(id);
 
         model.addAttribute("post", postDto);
-        model.addAttribute("nickName", user.getNickName());
+        model.addAttribute("writerNickName", user.getNickName());
+        model.addAttribute("writerAccountId", user.getAccountId());
         model.addAttribute("imageIds", imageIds);
+        model.addAttribute("address", addressName);
+
+        UserDto currentUser = userService.findByAccountId(principal.getName());
+        model.addAttribute("currentUser", currentUser);
+
         return "postDetail";
     }
 
     // 게시글 작성 폼
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("post", PostDto.createEmpty()); // 빈 객체 추가
+        model.addAttribute("post", new PostCreate()); // 빈 객체 추가
         return "postCreate";
     }
 
@@ -106,6 +117,12 @@ public class PostController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/posts/" + id + "edit"; // 수정 실패 시 에러메세지와 함께 게시글 수정 폼으로 리다이렉트
         }
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deletePost(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("id", id);
+        return "deletePost";
     }
 
     // 게시글 삭제

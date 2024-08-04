@@ -23,10 +23,12 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth ->
         {
             auth.dispatcherTypeMatchers(DispatcherType.ERROR, DispatcherType.FORWARD).permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/", "/index", "admin/notice/**", "/error").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/css/**", "/img/**", "/js/**", "/lib/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/", "/index", "admin/notice/**", "/error", "/api/post-images/**", "/api/post-images/posts/**", "/api/country").permitAll();
             auth.requestMatchers("/users/login").permitAll();
-            auth.requestMatchers(HttpMethod.POST, "/users", "/users/**").permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/users", "/users/**").hasAnyRole("User");
+
+            auth.requestMatchers(HttpMethod.POST, "/users/withdraw").hasRole("User");
+            auth.requestMatchers("/users/**").permitAll();
             auth.requestMatchers("/admin", "/admin/**").hasRole("Admin");
             auth.anyRequest().hasAnyRole("User");
         });
