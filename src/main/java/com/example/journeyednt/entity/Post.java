@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -27,11 +29,13 @@ public class Post {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "create_at", nullable = false)
-    private LocalDateTime createAt;
+    @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Column(name = "is_visible", nullable = false)
     private Boolean isVisible;
@@ -55,12 +59,10 @@ public class Post {
     private Integer rating;
 
     @Builder
-    public Post(Integer id, String title, String content, LocalDateTime createAt, LocalDateTime updateAt, Boolean isVisible, Boolean isNotice, List<String> tags, Integer rating, User user, Country country) {
+    public Post(Integer id, String title, String content, Boolean isVisible, Boolean isNotice, List<String> tags, Integer rating, User user, Country country) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
         this.isVisible = isVisible;
         this.isNotice = isNotice;
         this.tags = tags;
@@ -69,10 +71,9 @@ public class Post {
         this.country = country;
     }
 
-    public void updatePost(String title, String content, LocalDateTime updateAt, Boolean isVisible, List<String> tags, Integer rating) {
+    public void updatePost(String title, String content, Boolean isVisible, List<String> tags, Integer rating) {
         this.title = title;
         this.content = content;
-        this.updateAt = updateAt;
         this.isVisible = isVisible;
         this.tags = tags;
         this.rating = rating;
@@ -85,8 +86,6 @@ public class Post {
                 .isNotice(isNotice)
                 .tags(tags)
                 .rating(rating)
-                .createAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .isVisible(true)
                 .user(user)
                 .build();

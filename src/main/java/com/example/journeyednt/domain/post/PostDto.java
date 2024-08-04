@@ -16,8 +16,8 @@ public class PostDto {
     private Integer id;
     private String title;
     private String content;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Boolean isVisible;
     private Boolean isNotice;
     private User user;
@@ -25,7 +25,6 @@ public class PostDto {
     private Country country;
     private Integer rating;
 
-    //  public static 팩토리 메서드 추가 (컨트롤러쪽 사용시 필요!)
     public static PostDto createEmpty() {
         return new PostDto();
     }
@@ -35,8 +34,8 @@ public class PostDto {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .createAt(post.getCreateAt())
-                .updateAt(post.getUpdateAt())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
                 .isVisible(post.getIsVisible())
                 .isNotice(post.getIsNotice())
                 .user(post.getUser())
@@ -50,8 +49,6 @@ public class PostDto {
         return Post.builder()
                 .title(this.title)
                 .content(this.content)
-                .createAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .isVisible(true)
                 .isNotice(this.isNotice)
                 .tags(this.tags)
