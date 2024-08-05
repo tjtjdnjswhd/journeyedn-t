@@ -94,8 +94,13 @@ public class PostController {
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") Integer id, Model model) {
         PostDto postDto = postService.getPostById(id);
-        model.addAttribute("post", postDto);
-        return "postEdit";
+        PostCreate postCreate = new PostCreate();
+        postCreate.setTitle(postDto.getTitle());
+        postCreate.setContent(postDto.getContent());
+        postCreate.setRating(postDto.getRating());
+        postCreate.setTags(postDto.getTags());
+        model.addAttribute("post", postCreate);
+        return "postCreate";
     }
 
     // 게시글 수정

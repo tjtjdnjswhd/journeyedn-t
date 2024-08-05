@@ -13,7 +13,7 @@
         <form id="post-form" class="my-4 w-100" th:object="${post}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
             <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
-            <input type="text" th:field="*{title}" id="post-title" class="form-control mb-2">
+            <input type="text" th:field="*{title}" th:value="*{title}" id="post-title" class="form-control mb-2">
 
             <div class="row justify-content-start mb-2">
                 <div class="col-auto">
@@ -35,7 +35,7 @@
             </div>
 
             <article class="dropdown dropdown-address post-write d-inline">
-                <input type="hidden" th:field="*{countryId}" required>
+                <input type="hidden" th:field="*{countryId}" th:value="*{countryId}" required>
                 <button class="btn dropdown-toggle address-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false" data-bs-auto-close="outside">지역별 선택
                 </button>
