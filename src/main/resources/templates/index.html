@@ -15,7 +15,7 @@
     </section>
 
     <article class="main-wrapper">
-        <section class="notice-container">
+        <section class="notice-container w-100">
             <h2 class="sr-only">공지사항 목록</h2>
             <div class="d-flex align-items-center mb-4">
                 <img th:src="@{/img/Alarm.svg}" alt="공지사항 알림">
@@ -37,7 +37,7 @@
             </th:block>
         </section>
 
-        <section>
+        <section class="w-100">
             <h2 class="sr-only">글 목록</h2>
 
             <div class="row row-cols-4 g-5">
@@ -47,11 +47,15 @@
                             <img class="card-img-top" th:src="@{/api/post-images/posts/{id}(id=${post.id})}" alt="">
                             <div class="p-2 bg-dark bg-opacity-50">
                                 <div class="d-flex justify-content-between">
-                                    <h3 class="card-title" th:text="${post.title}">제목</h3>
+                                    <h3 class="card-title">
+                                        <a th:text="${post.title}" th:href="@{/posts/{id}(id=${post.id})}"></a>
+                                    </h3>
                                     <span class="card-text" th:text="${post.user.nickName}">작성자</span>
                                 </div>
                                 <div class="ellipsis">
-                                    <p class="card-text" th:text="${post.content}"></p>
+                                    <p class="card-text">
+                                        <a th:text="${post.content}" th:href="@{/posts/{id}(id=${post.id})}"></a>
+                                    </p>
                                 </div>
                             </div>
                         </div>

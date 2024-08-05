@@ -5,6 +5,7 @@ import com.example.journeyednt.domain.post.PostDto;
 import com.example.journeyednt.domain.user.UserDto;
 import com.example.journeyednt.service.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,7 +82,7 @@ public class PostController {
 
     // 게시글 저장(생성)
     @PostMapping("/create")
-    public String create(@ModelAttribute PostCreate postCreate, Principal principal) { // Principal 현재 인증된 사용자의 정보를 가져온다
+    public String create(@ModelAttribute @Valid PostCreate postCreate, Principal principal) { // Principal 현재 인증된 사용자의 정보를 가져온다
         String accountId = principal.getName(); // accountId
 
         UserDto user = userService.findByAccountId(accountId);
@@ -106,7 +107,7 @@ public class PostController {
     // 게시글 수정
     @PostMapping("/{id}/edit")
     // PRG 패턴을 사용, 폼 제출 후 리다이렉트를 통해 페이지를 새로고침 했을 때 폼이 중복 제출되는 것을 방지
-    public String edit(@PathVariable("id") Integer id, @ModelAttribute PostCreate postCreate, RedirectAttributes redirectAttributes, Principal principal) {
+    public String edit(@PathVariable("id") Integer id, @ModelAttribute @Valid PostCreate postCreate, RedirectAttributes redirectAttributes, Principal principal) {
         String accountId = principal.getName();
         UserDto loginUser = userService.findByAccountId(accountId);
 
