@@ -13,10 +13,19 @@
 
         <form class="my-4" method="post">
             <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
+
+            <th:block th:if="${titleError != null}">
+                <p th:text="${titleError}" class="text-danger"></p>
+            </th:block>
+
             <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
             <input type="text" name="title" id="post-title" class="form-control mb-2" th:value="${notice.title}">
 
             <hr>
+
+            <th:block th:if="${contentError != null}">
+                <p th:text="${contentError}" class="text-danger"></p>
+            </th:block>
 
             <label for="post-content" class="form-label fsi-32 fw-medium">본문</label>
             <textarea name="content" id="post-content" class="form-control mb-3" rows="12" th:value="${notice.content}"></textarea>

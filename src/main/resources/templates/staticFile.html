@@ -13,6 +13,12 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script th:src="@{/lib/bootstrap-5.3.3-dist/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/selectAddress.js}"></script>
+    <script th:inline="javascript" th:if="${error != null}">
+        /*<![CDATA[*/
+        let message = /*[[${error}]]*/ 'default';
+        alert(message);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/alertMessage.js}"></script>
 </th:block>
 </body>

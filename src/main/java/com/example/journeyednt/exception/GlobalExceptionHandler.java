@@ -12,9 +12,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public String handleException(HttpServletRequest request, Exception ex, RedirectAttributes redirectAttributes) {
         String requestURI = request.getRequestURI();
-        String message = ex.getMessage();
 
-        redirectAttributes.addFlashAttribute("message", message);
+        if (ex instanceof MethodArgumentNotValidException me) {
+            me.getFieldErrors().forEach(error -> redirectAttributes.addFlashAttribute(error.getField() + "Error", error.getDefaultMessage()));
+        } else {
+            redirectAttributes.addFlashAttribute("error", ex.getMessage());
+        }
+
         return "redirect:" + requestURI;
     }
 }

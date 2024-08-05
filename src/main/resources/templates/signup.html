@@ -14,28 +14,41 @@
             <div class="account text-center">
                 <h2 class="fsi-40">회원가입</h2>
                 <th:block th:if="${message != null}">
-                    <p th:text="${message}" class="alert alert-danger"></p>
+                    <p th:text="${message}" class="text-danger"></p>
                 </th:block>
 
                 <form th:object="${userSignup}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <th:block th:if="${accountIdError != null}">
+                        <p class="text-danger" th:text="${accountIdError}" role="alert"></p>
+                    </th:block>
                     <div class="d-flex account-input-wrap">
                         <img th:src="@{/img/accountid_icon.svg}" alt="">
                         <input type="text" th:field="*{accountId}" class="form-control border-0 fw-medium"
                                placeholder="아이디">
                     </div>
 
+                    <th:block th:if="${passwordError != null}">
+                        <p class="text-danger" th:text="${passwordError}" role="alert"></p>
+                    </th:block>
                     <div class="d-flex account-input-wrap">
                         <img th:src="@{/img/Lock.svg}" alt="">
                         <input type="text" th:field="*{password}" class="form-control border-0 fw-medium"
                                placeholder="비밀번호">
+
                     </div>
 
+                    <th:block th:if="${nameError != null}">
+                        <p class="text-danger" th:text="${nameError}" role="alert"></p>
+                    </th:block>
                     <div class="d-flex account-input-wrap">
                         <img th:src="@{/img/UserName.svg}" alt="">
                         <input type="text" th:field="*{name}" class="form-control border-0 fw-medium" placeholder="이름">
                     </div>
 
+                    <th:block th:if="${nicknameError != null}">
+                        <p class="text-danger" th:text="${nicknameError}" role="alert"></p>
+                    </th:block>
                     <div class="d-flex account-input-wrap">
                         <img th:src="@{/img/UserNickname.svg}" alt="">
                         <input type="text" th:field="*{nickName}" class="form-control border-0 fw-medium"
