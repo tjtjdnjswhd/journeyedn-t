@@ -41,7 +41,7 @@
                 <div class="d-flex justify-content-between">
                     <h2 class="post-title" th:text="*{title}"></h2>
                     <div class="rating">
-                        <th:block th:each="num : *{#numbers.sequence(rating + 1, 5)}">
+                        <th:block th:if="*{rating != 5}" th:each="num : *{#numbers.sequence(rating + 1, 5)}">
                             <svg class="rating-off" width="24" height="21" viewBox="0 0 24 21" fill="grey"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -62,7 +62,8 @@
 
                 <div class="d-flex justify-content-between">
                     <span class="fsi-20 fw-medium"
-                          th:text="*{#temporals.format(createdAt, 'YYYY.MM.DD').toString()}"></span>
+                          th:with="date=*{#temporals.format(createdAt, 'YYYY.MM.DD').toString()}"
+                          th:text="${date.substring(0, date.length() - 1)}"></span>
 
                     <span class="fsi-20 fw-medium" th:text="${address}"></span>
                 </div>
