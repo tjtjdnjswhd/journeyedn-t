@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<form id="deleteForm" method="post"></form>
+<form id="deleteForm" method="post">
+    <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
+</form>
 
 <script>
     window.addEventListener('load', () => {

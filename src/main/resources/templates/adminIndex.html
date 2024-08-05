@@ -14,6 +14,7 @@
             <h2 class="fsi-40">권한 변경</h2>
 
             <form th:action="@{/admin/users/role}" method="post">
+                <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
                 <div class="d-flex gap-5 role-change">
                     <div class="flex-grow-1">
                         <label for="account-id" class="form-label fsi-32">유저 Id</label>
@@ -36,6 +37,7 @@
             <h2 class="fsi-40">공지 작성</h2>
 
             <form th:action="@{/admin/notice}" method="post">
+                <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
                 <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
                 <input type="text" name="title" id="post-title" class="form-control mb-2">
 
@@ -49,7 +51,7 @@
     </div>
 </main>
 
-<script th:replace="staticFile :: script"></script>
+<script th:replace="~{staticFile :: script}"></script>
 
 </body>
 </html>

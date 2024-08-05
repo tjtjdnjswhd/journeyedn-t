@@ -12,6 +12,7 @@
     <article class="main-wrapper">
 
         <form class="my-4" method="post">
+            <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
             <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
             <input type="text" name="title" id="post-title" class="form-control mb-2" th:value="${notice.title}">
 
@@ -25,7 +26,7 @@
     </article>
 </main>
 
-<script th:replace="staticFile :: script"></script>
+<script th:replace="~{staticFile :: script}"></script>
 
 </body>
 </html>
