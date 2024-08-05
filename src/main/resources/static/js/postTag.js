@@ -50,6 +50,6 @@ function removeTag(element, text) {
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-  tagsInput.value = '[' + Array.from(tags).join(',') + ']';
+  tagsInput.value = Array.from(tags).join(',');
   this.submit();
 });

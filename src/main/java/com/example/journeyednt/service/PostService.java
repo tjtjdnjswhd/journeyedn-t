@@ -145,7 +145,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             posts = postRepository.findByIsVisibleTrueOrderByCreatedAtDesc(pageable);

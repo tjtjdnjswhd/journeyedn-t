@@ -53,7 +53,7 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
             FROM Country ct
             JOIN City c
             ON ct.city_id = c.id
-            JOIN blog.post p
+            JOIN post p
             ON ct.id = p.cdd_id
             WHERE p.id = :postId
             """, nativeQuery = true)

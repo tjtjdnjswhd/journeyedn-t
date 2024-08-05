@@ -10,7 +10,7 @@
 
 <main>
     <div class="main-wrapper">
-        <div class="post-wrap" th:object="${post}">
+        <div class="post-wrap w-100" th:object="${post}">
             <section class="post-img-carousel">
                 <div id="postImgCarousel" class="carousel slide">
 
@@ -74,7 +74,7 @@
                 <span class="fsi-20 fw-medium" th:text="${writerNickName}"></span>
 
                 <div class="d-flex justify-content-between">
-                    <span class="fsi-20 fw-medium" th:text="*{#dates.format(createdAt, 'YYYY.MM.DD')}"></span>
+                    <span class="fsi-20 fw-medium" th:text="*{#temporals.format(createdAt, 'YYYY.MM.DD').toString()}"></span>
 
                     <span class="fsi-20 fw-medium" th:text="${address}"></span>
                 </div>
