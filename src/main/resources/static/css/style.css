@@ -4,8 +4,9 @@
     font-family: 'pretendard';
 }
 
-* a {
-    text-decoration: none;
+a {
+    --bs-link-color-rgb: black;
+    text-decoration: none !important;
     text-transform: none;
     color: inherit;
 }
@@ -138,7 +139,7 @@ footer {
 .btn-yellow {
     --bs-btn-hover-bg: #F9ED32;
     --bs-btn-active-bg: #fff459;
-    background-color: #F9ED32;
+    --bs-btn-bg: #F9ED32 !important;
     border: none;
     border-radius: 10px;
 }

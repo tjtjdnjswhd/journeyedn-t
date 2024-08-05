@@ -107,8 +107,8 @@ public class PostController {
     @PostMapping("/{id}/edit")
     // PRG 패턴을 사용, 폼 제출 후 리다이렉트를 통해 페이지를 새로고침 했을 때 폼이 중복 제출되는 것을 방지
     public String edit(@PathVariable("id") Integer id, @ModelAttribute PostCreate postCreate, RedirectAttributes redirectAttributes, Principal principal) {
-        String nickName = principal.getName();
-        UserDto loginUser = userService.findByNickname(nickName);
+        String accountId = principal.getName();
+        UserDto loginUser = userService.findByAccountId(accountId);
 
         if (!postService.existsByIdAndUserId(id, loginUser.getId())) {
             return "redirect:/posts/" + id;
