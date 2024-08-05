@@ -49,7 +49,7 @@ public class AdminController {
     public String editNotice(@PathVariable Integer id, Model model) {
         PostDto notice = postService.getPostById(id);
         if (!notice.getIsNotice()) {
-            return "redirect:/index";
+            return "redirect:/";
         }
 
         model.addAttribute("notice", notice);
@@ -60,12 +60,12 @@ public class AdminController {
     public String editNotice(@PathVariable Integer id, @RequestParam("title") String title, @RequestParam("content") String content) {
         PostDto notice = postService.getPostById(id);
         if (!notice.getIsNotice()) {
-            return "redirect:/index";
+            return "redirect:/";
         }
 
         postService.updateNotice(id, title, content);
 
-        return "/admin/notice/" + id;
+        return "redirect:/admin/notice/" + id;
     }
 
     @GetMapping("/notice/{id}")
@@ -90,6 +90,6 @@ public class AdminController {
     @PostMapping("/notice/{id}/delete")
     public String deleteNotice(@PathVariable Integer id) {
         postService.invisiblePost(id);
-        return "redirect:/index";
+        return "redirect:/";
     }
 }

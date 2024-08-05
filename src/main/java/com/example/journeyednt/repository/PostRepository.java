@@ -32,7 +32,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "UPDATE Post p SET p.title = :title, p.content = :content WHERE p.id = :id AND p.isNotice")
     int updateNotice(@Param("id") Integer id, @Param("title") String title, @Param("content") String content);
 
-    List<Post> findByIsNoticeTrue(Pageable pageable);
+    List<Post> findByIsNoticeTrueAndIsVisibleTrue(Pageable pageable);
 
     @Query(value = "SELECT p.* FROM Post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
     List<Post> findByIsVisibleTrueAndByTextOrderByCreateAtDesc(String text, Pageable pageable);

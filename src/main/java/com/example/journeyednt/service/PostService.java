@@ -97,6 +97,7 @@ public class PostService {
         return PostDto.fromEntity(updatedPost);
     }
 
+    @Transactional
     public int updateNotice(Integer id, String title, String content) {
         return postRepository.updateNotice(id, title, content);
     }
@@ -133,13 +134,18 @@ public class PostService {
     public PostDto getPostById(Integer id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글은 존재하지 않습니다. :" + id));
+
+        if (!post.getIsVisible()) {
+            throw new IllegalArgumentException("해당 게시글은 존재하지 않습니다. :" + id);
+        }
+
         return PostDto.fromEntity(post);
     }
 
     @Transactional(readOnly = true)
     public List<PostDto> getNotices(int count) {
         Pageable pageable = PageRequest.of(0, count);
-        List<Post> posts = postRepository.findByIsNoticeTrue(pageable);
+        List<Post> posts = postRepository.findByIsNoticeTrueAndIsVisibleTrue(pageable);
         return posts.stream().map(PostDto::fromEntity).toList();
     }
 
