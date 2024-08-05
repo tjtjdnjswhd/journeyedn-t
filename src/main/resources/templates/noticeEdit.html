@@ -11,7 +11,7 @@
 <main>
     <article class="main-wrapper">
 
-        <form class="my-4" method="post">
+        <form class="my-4 w-100" method="post">
             <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
 
             <th:block th:if="${titleError != null}">
@@ -28,7 +28,7 @@
             </th:block>
 
             <label for="post-content" class="form-label fsi-32 fw-medium">본문</label>
-            <textarea name="content" id="post-content" class="form-control mb-3" rows="12" th:value="${notice.content}"></textarea>
+            <textarea name="content" id="post-content" class="form-control mb-3" rows="12" th:text="${notice.content}"></textarea>
 
             <button class="btn btn-yellow" type="submit">수정</button>
         </form>

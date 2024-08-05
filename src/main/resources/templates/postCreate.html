@@ -128,7 +128,7 @@
             </th:block>
 
             <label for="post-content" class="form-label fsi-32 fw-medium">본문</label>
-            <textarea th:field="*{content}" th:value="*{content}" name="content" id="post-content"
+            <textarea th:field="*{content}" th:text="*{content}" name="content" id="post-content"
                       class="form-control mb-3" rows="12"></textarea>
 
             <th:block th:if="${tagsError != null}">
