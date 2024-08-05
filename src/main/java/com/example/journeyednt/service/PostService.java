@@ -112,8 +112,10 @@ public class PostService {
         List<MultipartFile> images = postCreate.getImages();
         if (images != null) {
             for (MultipartFile image : images) {
-                PostImage postImage = new PostImage(image.getContentType(), image.getBytes(), true, post);
-                postImageService.savePostImage(postImage);
+                if (!image.isEmpty()) {
+                    PostImage postImage = new PostImage(image.getContentType(), image.getBytes(), true, post);
+                    postImageService.savePostImage(postImage);
+                }
             }
         }
 
