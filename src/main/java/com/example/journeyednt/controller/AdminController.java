@@ -38,8 +38,8 @@ public class AdminController {
 
     @PostMapping("/notice")
     public String addNotice(@RequestParam("title") String title, @RequestParam("content") String content, Principal principal) {
-        String nickName = principal.getName();
-        UserDto loginUser = userService.findByNickname(nickName);
+        String accountId = principal.getName();
+        UserDto loginUser = userService.findByAccountId(accountId);
         PostDto notice = postService.createNotice(title, content, loginUser.getId());
 
         return "redirect:/admin/notice/" + notice.getId();

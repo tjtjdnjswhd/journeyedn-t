@@ -133,8 +133,8 @@ public class PostController {
     // 게시글 삭제
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable("id") Integer id, Principal principal) {
-        String nickName = principal.getName();
-        UserDto loginUser = userService.findByNickname(nickName);
+        String accountId = principal.getName();
+        UserDto loginUser = userService.findByAccountId(accountId);
 
         if (!postService.existsByIdAndUserId(id, loginUser.getId())) {
             return "redirect:/posts/" + id;
