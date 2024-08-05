@@ -10,7 +10,7 @@
 
 <main>
     <div class="main-wrapper">
-        <section class="my-4">
+        <section class="my-4 w-100">
             <h2 class="fsi-40">권한 변경</h2>
 
             <form th:action="@{/admin/users/role}" method="post">
@@ -18,13 +18,13 @@
                 <div class="d-flex gap-5 role-change">
                     <div class="flex-grow-1">
                         <label for="account-id" class="form-label fsi-32">유저 Id</label>
-                        <input type="number" name="accountId" id="account-id" class="form-control">
+                        <input type="text" name="accountId" id="account-id" class="form-control">
                     </div>
 
                     <div class="flex-grow-1">
                         <label for="roleName" class="form-label fsi-32">권한</label>
-                        <select name="roleName" id="roleName" class="form-select" th:each="role : ${roles}">
-                            <option th:value="${role.name}" th:text="${role.name}"></option>
+                        <select name="roleName" id="roleName" class="form-select">
+                            <option th:each="role : ${roles}" th:value="${role.name}" th:text="${role.name}"></option>
                         </select>
                     </div>
 
@@ -33,7 +33,7 @@
             </form>
         </section>
 
-        <section>
+        <section class="w-100">
             <h2 class="fsi-40">공지 작성</h2>
 
             <form th:action="@{/admin/notice}" method="post">
