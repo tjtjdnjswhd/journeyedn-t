@@ -29,7 +29,8 @@
                             <img th:src="@{/img/Chevron Right.svg}" alt="" height="51">
                         </a>
                         <span class="d-block fw-medium"><a th:href="@{/admin/notice/{id}(id=${notice.id})}"
-                                                           th:text="${#dates.format(notice.createdAt, 'YYYY-MM-DD')}"></a></span>
+                                                           th:with="date=${#temporals.format(notice.createdAt, 'YYYY-MM-DD')}"
+                                                           th:text="${date.substring(0, date.length() - 1)}"></a></span>
                         <span class="d-block fw-medium"><a th:href="@{/admin/notice/{id}(id=${notice.id})}"
                                                            th:text="${notice.title}"></a></span>
                     </div>
@@ -66,7 +67,7 @@
     </article>
 
     <article class="city-ranking">
-        <h3 class="d-inline me-4">Top N 지역</h3>
+        <h3 class="d-inline me-4">Top 5 지역</h3>
         <button class="btn d-inline" role="button"><img th:src="@{/img/CloseButton.svg}" alt=""></button>
         <ol>
             <th:block th:each="topCityName : ${topCity}">

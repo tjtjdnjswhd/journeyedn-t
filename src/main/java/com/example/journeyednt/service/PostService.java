@@ -138,7 +138,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getNotices(int count) {
-        Pageable pageable = PageRequest.of(1, count);
+        Pageable pageable = PageRequest.of(0, count);
         List<Post> posts = postRepository.findByIsNoticeTrue(pageable);
         return posts.stream().map(PostDto::fromEntity).toList();
     }
@@ -158,7 +158,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(String text, int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             posts = postRepository.findByIsVisibleTrueAndByTextOrderByCreateAtDesc(text, pageable);
@@ -171,7 +171,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(int countryId, String text, int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             posts = postRepository.findByCountryIdAndIsVisibleTrueAndByTextOrderByCreateAtDesc(countryId, text, pageable);
@@ -184,7 +184,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(int countryId, int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByCreatedAtDesc(countryId, pageable);
