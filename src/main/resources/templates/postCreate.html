@@ -10,7 +10,8 @@
 
 <main>
     <article class="main-wrapper">
-        <form id="post-form" class="my-4 w-100" th:object="${post}" method="post">
+        <form id="post-form" class="my-4 w-100" th:object="${post}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
             <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
             <input type="text" th:field="*{title}" id="post-title" class="form-control mb-2">
 

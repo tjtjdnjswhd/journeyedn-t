@@ -21,7 +21,7 @@ public class PostImage {
     private String contentType;
 
     @Lob
-    @Column(name = "data", nullable = false)
+    @Column(name = "data", nullable = false, columnDefinition = "longblob")
     private byte[] data;
 
     @Column(name = "is_primary", nullable = false)

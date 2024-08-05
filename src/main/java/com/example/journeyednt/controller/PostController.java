@@ -82,9 +82,9 @@ public class PostController {
     // 게시글 저장(생성)
     @PostMapping("/create")
     public String create(@ModelAttribute PostCreate postCreate, Principal principal) { // Principal 현재 인증된 사용자의 정보를 가져온다
-        String nickname = principal.getName(); // 닉네임을 가져옴
+        String accountId = principal.getName(); // accountId
 
-        UserDto user = userService.findByNickname(nickname); // 닉네임으로 User 객체 조회
+        UserDto user = userService.findByAccountId(accountId);
 
         PostDto savedPost = postService.createPost(postCreate, user.getId());
         return "redirect:/posts/" + savedPost.getId();
