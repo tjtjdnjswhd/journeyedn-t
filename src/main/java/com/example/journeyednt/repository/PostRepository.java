@@ -35,22 +35,22 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findByIsNoticeTrueAndIsVisibleTrue(Pageable pageable);
 
     @Query(value = "SELECT p.* FROM post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
-    List<Post> findByIsVisibleTrueAndByTextOrderByCreateAtDesc(String text, Pageable pageable);
+    List<Post> findByIsVisibleTrueAndIsNoticeFalseAndByTextOrderByCreateAtDesc(String text, Pageable pageable);
 
     @Query(value = "SELECT p.* FROM post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.rating", nativeQuery = true)
-    List<Post> findByIsVisibleTrueAndByTextOrderByRatingDesc(String text, Pageable pageable);
+    List<Post> findByIsVisibleTrueAndIsNoticeFalseAndByTextOrderByRatingDesc(String text, Pageable pageable);
 
-    List<Post> findByCountryIdAndIsVisibleTrueOrderByCreatedAtDesc(Integer countryId, Pageable pageable);
+    List<Post> findByCountryIdAndIsVisibleTrueAndIsNoticeFalseOrderByCreatedAtDesc(Integer countryId, Pageable pageable);
 
-    List<Post> findByCountryIdAndIsVisibleTrueOrderByRatingDesc(Integer countryId, Pageable pageable);
+    List<Post> findByCountryIdAndIsVisibleTrueAndIsNoticeFalseOrderByRatingDesc(Integer countryId, Pageable pageable);
 
     @Query(value = "SELECT p.* FROM post p JOIN country c WHERE c.id = :countryId AND (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
-    List<Post> findByCountryIdAndIsVisibleTrueAndByTextOrderByCreateAtDesc(Integer countryId, String text, Pageable pageable);
+    List<Post> findByCountryIdAndIsVisibleTrueAndIsNoticeFalseAndByTextOrderByCreateAtDesc(Integer countryId, String text, Pageable pageable);
 
     @Query(value = "SELECT p.* FROM post p JOIN country c WHERE c.id = :countryId AND (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.rating", nativeQuery = true)
-    List<Post> findByCountryIdAndIsVisibleTrueAndByTextOrderByRatingDesc(Integer countryId, String text, Pageable pageable);
+    List<Post> findByCountryIdAndIsVisibleTrueAndIsNoticeFalseAndByTextOrderByRatingDesc(Integer countryId, String text, Pageable pageable);
 
-    List<Post> findByIsVisibleTrueOrderByCreatedAtDesc(Pageable pageable);
+    List<Post> findByIsVisibleTrueAndIsNoticeFalseOrderByCreatedAtDesc(Pageable pageable);
 
-    List<Post> findByIsVisibleTrueOrderByRatingDesc(Pageable pageable);
+    List<Post> findByIsVisibleTrueAndIsNoticeFalseOrderByRatingDesc(Pageable pageable);
 }

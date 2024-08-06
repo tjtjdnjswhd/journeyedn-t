@@ -56,6 +56,10 @@ public class PostController {
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Integer id, Model model, Principal principal) {
         PostDto postDto = postService.getPostById(id);
+        if (postDto.getIsNotice()) {
+            return "redirect:/";
+        }
+
         UserDto user = userService.findByPostId(postDto.getId());
 
         List<Integer> imageIds = postImageService.getPostImageIdsByPostId(id);
