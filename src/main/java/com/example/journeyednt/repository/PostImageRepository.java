@@ -13,6 +13,6 @@ public interface PostImageRepository extends JpaRepository<PostImage, Integer> {
     @Query("select p.id from PostImage p where p.post.id = ?1")
     List<Integer> findIdsByPostId(Integer postId);
 
-    @Query("SELECT p.id FROM PostImage  p WHERE p.post.id = ?1 AND p.isPrimary")
+    @Query(value = "SELECT p.id FROM post_image p WHERE p.post_id = ?1 AND p.is_primary LIMIT 1", nativeQuery = true)
     Integer findPrimaryImageIdByPostId(Integer postId);
 }
