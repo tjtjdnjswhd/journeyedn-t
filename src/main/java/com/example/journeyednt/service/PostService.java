@@ -161,9 +161,9 @@ public class PostService {
         Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByIsVisibleTrueOrderByCreatedAtDesc(pageable);
+            posts = postRepository.findByIsVisibleTrueAndIsNoticeFalseOrderByCreatedAtDesc(pageable);
         } else {
-            posts = postRepository.findByIsVisibleTrueOrderByRatingDesc(pageable);
+            posts = postRepository.findByIsVisibleTrueAndIsNoticeFalseOrderByRatingDesc(pageable);
         }
 
         return posts.stream().map(PostDto::fromEntity).toList();
@@ -174,9 +174,9 @@ public class PostService {
         Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByIsVisibleTrueAndByTextOrderByCreateAtDesc(text, pageable);
+            posts = postRepository.findByIsVisibleTrueAndIsNoticeFalseAndByTextOrderByCreateAtDesc(text, pageable);
         } else {
-            posts = postRepository.findByIsVisibleTrueAndByTextOrderByRatingDesc(text, pageable);
+            posts = postRepository.findByIsVisibleTrueAndIsNoticeFalseAndByTextOrderByRatingDesc(text, pageable);
         }
 
         return posts.stream().map(PostDto::fromEntity).toList();
@@ -187,9 +187,9 @@ public class PostService {
         Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByCountryIdAndIsVisibleTrueAndByTextOrderByCreateAtDesc(countryId, text, pageable);
+            posts = postRepository.findByCountryIdAndIsVisibleTrueAndIsNoticeFalseAndByTextOrderByCreateAtDesc(countryId, text, pageable);
         } else {
-            posts = postRepository.findByCountryIdAndIsVisibleTrueAndByTextOrderByRatingDesc(countryId, text, pageable);
+            posts = postRepository.findByCountryIdAndIsVisibleTrueAndIsNoticeFalseAndByTextOrderByRatingDesc(countryId, text, pageable);
         }
 
         return posts.stream().map(PostDto::fromEntity).toList();
@@ -200,9 +200,9 @@ public class PostService {
         Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByCreatedAtDesc(countryId, pageable);
+            posts = postRepository.findByCountryIdAndIsVisibleTrueAndIsNoticeFalseOrderByCreatedAtDesc(countryId, pageable);
         } else {
-            posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByRatingDesc(countryId, pageable);
+            posts = postRepository.findByCountryIdAndIsVisibleTrueAndIsNoticeFalseOrderByRatingDesc(countryId, pageable);
         }
 
         return posts.stream().map(PostDto::fromEntity).toList();
