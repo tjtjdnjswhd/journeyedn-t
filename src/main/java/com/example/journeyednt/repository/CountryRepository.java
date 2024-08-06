@@ -37,12 +37,12 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
     @Query(value = """
             SELECT CONCAT(c.name, ' ', ct.name) FROM
                 (SELECT ct.id, ct.city_id, ct.name, AVG(p.rating) AS avg_rating
-                FROM Country ct
-                JOIN Post p
+                FROM country ct
+                JOIN post p
                 ON ct.id = p.cdd_id
                 GROUP BY ct.id
                 ORDER BY avg_rating) AS ct
-            JOIN City c
+            JOIN city c
             ON ct.city_id = c.id
             LIMIT :count
             """, nativeQuery = true)
@@ -50,8 +50,8 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
 
     @Query(value = """
             SELECT CONCAT(c.name, ' ', ct.name)
-            FROM Country ct
-            JOIN City c
+            FROM country ct
+            JOIN city c
             ON ct.city_id = c.id
             JOIN post p
             ON ct.id = p.cdd_id
@@ -61,8 +61,8 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
 
     @Query(value = """
             SELECT CONCAT(c.name, ' ', ct.name)
-            FROM Country ct
-            JOIN City c
+            FROM country ct
+            JOIN city c
             ON ct.city_id = c.id
             WHERE ct.id = :id
             """, nativeQuery = true)
