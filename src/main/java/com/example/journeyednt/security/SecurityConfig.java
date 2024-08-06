@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -20,21 +21,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFailureHandler failureHandler, AccessDeniedHandler accessDeniedHandler) throws Exception {
+        http.formLogin(cnf -> cnf.loginPage("/users/login").usernameParameter("accountId").passwordParameter("password").permitAll().failureHandler(failureHandler).defaultSuccessUrl("/"));
+        http.logout(conf -> conf.logoutUrl("/users/logout").permitAll().logoutSuccessUrl("/").permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/users/logout", "GET")));
+
         http.authorizeHttpRequests(auth ->
         {
             auth.dispatcherTypeMatchers(DispatcherType.ERROR, DispatcherType.FORWARD).permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/", "/index", "admin/notice/**", "/error").permitAll();
-            auth.requestMatchers("/users/login").permitAll();
-            auth.requestMatchers(HttpMethod.POST, "/users", "/users/**").permitAll();
-            auth.requestMatchers(HttpMethod.GET, "/users", "/users/**").hasAnyRole("User");
+            auth.requestMatchers(HttpMethod.GET, "/css/**", "/img/**", "/js/**", "/lib/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/", "admin/notice/**", "/error", "/api/post-images/**", "/api/post-images/posts/**", "/api/country").permitAll();
+            auth.requestMatchers("/users/**").permitAll();
+
             auth.requestMatchers("/admin", "/admin/**").hasRole("Admin");
             auth.anyRequest().hasAnyRole("User");
         });
 
-        http.formLogin(cnf -> cnf.loginPage("/users/login").usernameParameter("accountId").passwordParameter("password").permitAll().failureHandler(failureHandler).defaultSuccessUrl("/index"));
         http.httpBasic(AbstractHttpConfigurer::disable);
-
-        http.logout(conf -> conf.logoutUrl("/users/logout").permitAll().logoutSuccessUrl("/index"));
 
         http.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedHandler(accessDeniedHandler));
 

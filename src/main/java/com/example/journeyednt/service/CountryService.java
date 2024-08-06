@@ -17,6 +17,16 @@ public class CountryService {
 
     private final CountryRepository countryRepository;
 
+    @Transactional(readOnly = true)
+    public String getFullNameByPostId(Integer postId) {
+        return countryRepository.findFullNameByPostId(postId);
+    }
+
+    @Transactional(readOnly = true)
+    public String getFullNameById(Integer id) {
+        return countryRepository.findFullNameById(id);
+    }
+
     // cityId로 city에 해당하는 countries 가져오기
     @Transactional(readOnly = true)
     public List<CountryDto> getCountriesByCityId(Integer cityId) {

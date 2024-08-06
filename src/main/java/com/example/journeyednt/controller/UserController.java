@@ -3,9 +3,10 @@ package com.example.journeyednt.controller;
 import com.example.journeyednt.domain.user.UserDto;
 import com.example.journeyednt.domain.user.UserSignup;
 import com.example.journeyednt.domain.user.UserLogin;
-import com.example.journeyednt.exception.UserException;
-import com.example.journeyednt.result.ErrorCode;
+import com.example.journeyednt.service.PostService;
 import com.example.journeyednt.service.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +24,16 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @GetMapping("/signup")
     public String signup(Model model) {
-        UserSignup userCreateDto = UserSignup.createEmpty();
-        model.addAttribute("userCreateDto", userCreateDto);
+        UserSignup userSignup = UserSignup.createEmpty();
+        model.addAttribute("userSignup", userSignup);
         return "signup";
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public String signup(@ModelAttribute @Valid UserSignup userCreateDto, Model model) {
         UserDto user = userService.createUser(userCreateDto);
         model.addAttribute("user", user);
@@ -40,34 +42,21 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        UserLogin userLoginDto = UserLogin.createEmpty();
-        model.addAttribute("userLoginDto", userLoginDto);
+        UserLogin userLogin = UserLogin.createEmpty();
+        model.addAttribute("userLogin", userLogin);
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute @Valid UserLogin userLoginDto, Model model) {
-        UserDto loginUser = userService.findByAccountId(userLoginDto.getAccountId());
-
-        if (!loginUser.getIsVisible()) {
-            throw new UserException(ErrorCode.USER_INACTIVE);
-        }
-
-        if (userService.findUserRoleByAccountId(userLoginDto.getAccountId()).getName().equals("Ban")) {
-            throw new UserException(ErrorCode.ACCESS_DENIED);
-        }
-
-        UserDto user = userService.loginUser(userLoginDto);
-        model.addAttribute("user", user);
-        return "redirect:/";
-    }
-
     @PostMapping("/withdraw")
-    public String withdraw(Principal principal) {
+    public String withdraw(Principal principal, HttpServletRequest request) throws ServletException {
         String accountId = principal.getName();
+
+        UserDto user = userService.findByAccountId(accountId);
 
         userService.updateVisibleUser(accountId, false);
         userService.updateUserRole(accountId, "Ban");
+        postService.invisiblePostByUserId(user.getId());
+        request.logout();
         return "redirect:/";
     }
 }

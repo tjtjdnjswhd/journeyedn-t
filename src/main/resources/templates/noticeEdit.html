@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit notice</title>
+    <th:block th:replace="~{staticFile :: style}"></th:block>
+</head>
+<body>
+<header th:replace="~{header :: header}"></header>
+
+<main>
+    <article class="main-wrapper">
+
+        <form class="my-4 w-100" method="post">
+            <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
+
+            <th:block th:if="${titleError != null}">
+                <p th:text="${titleError}" class="text-danger"></p>
+            </th:block>
+
+            <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
+            <input type="text" name="title" id="post-title" class="form-control mb-2" th:value="${notice.title}">
+
+            <hr>
+
+            <th:block th:if="${contentError != null}">
+                <p th:text="${contentError}" class="text-danger"></p>
+            </th:block>
+
+            <label for="post-content" class="form-label fsi-32 fw-medium">본문</label>
+            <textarea name="content" id="post-content" class="form-control mb-3" rows="12" th:text="${notice.content}"></textarea>
+
+            <button class="btn btn-yellow" type="submit">수정</button>
+        </form>
+    </article>
+</main>
+
+<script th:replace="~{staticFile :: script}"></script>
+
+</body>
+</html>

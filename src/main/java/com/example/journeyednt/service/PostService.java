@@ -85,7 +85,7 @@ public class PostService {
         post.updatePost(
                 postCreate.getTitle(),
                 postCreate.getContent(),
-                false,
+                true,
                 postCreate.getTags(),
                 postCreate.getRating()
         );
@@ -95,6 +95,11 @@ public class PostService {
 
         uploadImage(postCreate, post);
         return PostDto.fromEntity(updatedPost);
+    }
+
+    @Transactional
+    public int updateNotice(Integer id, String title, String content) {
+        return postRepository.updateNotice(id, title, content);
     }
 
     private void uploadImage(PostCreate postCreate, Post post) throws IOException {
@@ -107,8 +112,10 @@ public class PostService {
         List<MultipartFile> images = postCreate.getImages();
         if (images != null) {
             for (MultipartFile image : images) {
-                PostImage postImage = new PostImage(image.getContentType(), image.getBytes(), true, post);
-                postImageService.savePostImage(postImage);
+                if (!image.isEmpty()) {
+                    PostImage postImage = new PostImage(image.getContentType(), image.getBytes(), true, post);
+                    postImageService.savePostImage(postImage);
+                }
             }
         }
 
@@ -117,6 +124,11 @@ public class PostService {
     @Transactional
     public void invisiblePost(Integer id) {
         postRepository.updatePostVisibility(id, false);
+    }
+
+    @Transactional
+    public void invisiblePostByUserId(Integer userId) {
+        postRepository.updateUserPostsVisibility(userId, false);
     }
 
     @Transactional(readOnly = true)
@@ -129,22 +141,27 @@ public class PostService {
     public PostDto getPostById(Integer id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글은 존재하지 않습니다. :" + id));
+
+        if (!post.getIsVisible()) {
+            throw new IllegalArgumentException("해당 게시글은 존재하지 않습니다. :" + id);
+        }
+
         return PostDto.fromEntity(post);
     }
 
     @Transactional(readOnly = true)
     public List<PostDto> getNotices(int count) {
-        Pageable pageable = PageRequest.of(1, count);
-        List<Post> posts = postRepository.findByIsNoticeTrue(pageable);
+        Pageable pageable = PageRequest.of(0, count);
+        List<Post> posts = postRepository.findByIsNoticeTrueAndIsVisibleTrue(pageable);
         return posts.stream().map(PostDto::fromEntity).toList();
     }
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByIsVisibleTrueOrderByCreateAtDesc(pageable);
+            posts = postRepository.findByIsVisibleTrueOrderByCreatedAtDesc(pageable);
         } else {
             posts = postRepository.findByIsVisibleTrueOrderByRatingDesc(pageable);
         }
@@ -154,7 +171,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(String text, int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             posts = postRepository.findByIsVisibleTrueAndByTextOrderByCreateAtDesc(text, pageable);
@@ -167,7 +184,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(int countryId, String text, int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
             posts = postRepository.findByCountryIdAndIsVisibleTrueAndByTextOrderByCreateAtDesc(countryId, text, pageable);
@@ -180,10 +197,10 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> getPosts(int countryId, int page, String orderBy) {
-        Pageable pageable = PageRequest.of(page, POST_QUERY_COUNT);
+        Pageable pageable = PageRequest.of(page - 1, POST_QUERY_COUNT);
         List<Post> posts;
         if (orderBy == null || orderBy.equals(ORDER_BY_RECENT)) {
-            posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByCreateAtDesc(countryId, pageable);
+            posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByCreatedAtDesc(countryId, pageable);
         } else {
             posts = postRepository.findByCountryIdAndIsVisibleTrueOrderByRatingDesc(countryId, pageable);
         }

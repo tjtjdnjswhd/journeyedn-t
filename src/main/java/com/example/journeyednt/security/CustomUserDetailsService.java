@@ -24,6 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         userBuilder.username(user.getAccountId());
         userBuilder.password(user.getPasswordHash());
         userBuilder.roles(role.getName());
+        if (!user.getIsVisible()) {
+            userBuilder.accountExpired(true);
+        }
         return userBuilder.build();
     }
 }

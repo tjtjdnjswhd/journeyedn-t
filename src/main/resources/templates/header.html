@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<header th:fragment="header" class="d-flex align-items-center justify-content-between">
+    <section>
+        <a href="/">
+        <img th:src="@{/img/Logo.svg}" alt="로고" height="121">
+        <h2 class="top-title fw-medium">가봤저니</h2>
+        </a>
+    </section>
+
+    <section>
+        <h2 class="sr-only">검색 툴바</h2>
+        <form th:action="@{/posts}" method="get">
+
+            <div class="search-container">
+                <article class="dropdown dropdown-address">
+                    <h3 class="sr-only">주소 선택</h3>
+                    <input type="hidden" th:name="countryId">
+                    <button class="btn dropdown-toggle address-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" data-bs-auto-close="outside">지역별 선택
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="address-container">
+                            <div class="address-list">
+                                <ul class="list-group list-group-flush list-unstyled list-city">
+                                    <li class="list-group-item">도/시</li>
+                                </ul>
+                            </div>
+
+                            <div class="address-list">
+                                <ul class="list-group list-group-flush list-unstyled list-country">
+                                    <li class="list-group-item">시/군/구</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="search-text">
+                    <input class="fsi-26 bg-transparent" name="text" type="text" placeholder="검색어를 입력해주세요">
+                    <button class="btn" type="submit"><img th:src="@{/img/search.svg}" alt=""></button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <div sec:authorize="isAuthenticated()">
+            <h2 class="sr-only">유저 이름, 로그아웃, 탈퇴 링크</h2>
+            <a class="me-5 fsi-24 fw-medium" th:href="@{/posts/create}">리뷰 작성</a>
+            <span class="me-5 fsi-24 fw-medium" th:text="${#authentication.name}"></span>
+            <a class="fw-medium fsi-24" th:href="@{/users/logout}">로그아웃</a>
+            <form class="d-inline" id="withdraw-form" action="/users/withdraw" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button class="btn" type="submit">탈퇴</button>
+            </form>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <h2 class="sr-only">로그인, 회원가입 링크</h2>
+            <a class="me-5 fsi-24 fw-medium" th:href="@{/users/login}">로그인</a>
+            <a class="fsi-24 fw-medium" th:href="@{/users/signup}">회원가입</a>
+        </div>
+    </section>
+</header>
+
+</body>
+</html>

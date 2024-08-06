@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post create</title>
+    <th:block th:replace="~{staticFile :: style}"></th:block>
+</head>
+<body>
+<header th:replace="~{header :: header}"></header>
+
+<main>
+    <article class="main-wrapper">
+        <form id="post-form" class="my-4 w-100" th:object="${post}" method="post" enctype="multipart/form-data">
+            <th:block th:if="${message != null}">
+                <p th:text="${message}" class="text-danger"></p>
+            </th:block>
+            <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
+
+            <th:block th:if="${titleError != null}">
+                <p class="text-danger" th:text="${titleError}" role="alert"></p>
+            </th:block>
+            <label for="post-title" class="form-label fsi-32 fw-medium">제목</label>
+            <input type="text" th:field="*{title}" th:value="*{title}" id="post-title" class="form-control mb-2">
+
+            <th:block th:if="${primaryImageError != null}">
+                <p class="text-danger" th:text="${primaryImageError}" role="alert"></p>
+            </th:block>
+
+            <div class="row justify-content-start mb-2">
+                <div class="col-auto">
+                    <label for="primary-img" class="col-form-label file-label fsi-16 fw-medium">대표 이미지</label>
+                </div>
+                <div class="col-auto">
+                    <input type="file" th:field="*{primaryImage}" id="primary-img" class="form-control"
+                           accept="image/*">
+                </div>
+            </div>
+
+            <th:block th:if="${imagesError != null}">
+                <p class="text-danger" th:text="${imagesError}" role="alert"></p>
+            </th:block>
+
+            <div class="row justify-content-start mb-2">
+                <div class="col-auto">
+                    <label for="imgs" class="col-form-label file-label fsi-16 fw-medium">이미지</label>
+                </div>
+                <div class="col-auto">
+                    <input type="file" th:field="*{images}" id="imgs" class="form-control" accept="image/*" multiple>
+                </div>
+            </div>
+
+            <th:block th:if="${countryIdError != null}">
+                <p class="text-danger" th:text="${countryIdError}" role="alert"></p>
+            </th:block>
+
+            <th:block th:if="${ratingError != null}">
+                <p class="text-danger" th:text="${ratingError}" role="alert"></p>
+            </th:block>
+
+            <article class="dropdown dropdown-address post-write d-inline">
+                <input type="hidden" th:field="*{countryId}" th:value="*{countryId}" required>
+                <button class="btn dropdown-toggle address-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" data-bs-auto-close="outside">지역별 선택
+                </button>
+                <div class="dropdown-menu">
+                    <div class="address-container">
+                        <div class="address-list">
+                            <ul class="list-group list-group-flush list-unstyled list-city">
+                                <li class="list-group-item">도/시</li>
+                            </ul>
+                        </div>
+
+                        <div class="address-list">
+                            <ul class="list-group list-group-flush list-unstyled list-country">
+                                <li class="list-group-item">시/군/구</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="rating">
+                <input type="radio" id="star5" th:field="*{rating}" name="rating" value="5"/>
+                <label for="star5">
+                    <svg width="24" height="21" viewBox="0 0 24 21" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"
+                                fill="white"/>
+                    </svg>
+                </label>
+                <input type="radio" id="star4" th:field="*{rating}" name="rating" value="4"/>
+                <label for="star4">
+                    <svg width="24" height="21" viewBox="0 0 24 21" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"
+                                fill="white"/>
+                    </svg>
+                </label>
+                <input type="radio" id="star3" th:field="*{rating}" name="rating" value="3"/>
+                <label for="star3">
+                    <svg width="24" height="21" viewBox="0 0 24 21" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"
+                                fill="white"/>
+                    </svg>
+                </label>
+                <input type="radio" id="star2" th:field="*{rating}" name="rating" value="2"/>
+                <label for="star2">
+                    <svg width="24" height="21" viewBox="0 0 24 21" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"
+                                fill="white"/>
+                    </svg>
+                </label>
+                <input type="radio" id="star1" th:field="*{rating}" name="rating" value="1"/>
+                <label for="star1">
+                    <svg width="24" height="21" viewBox="0 0 24 21" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M14.9067 7.16805L15.0414 7.38561L15.2957 7.40614L22.1726 7.96138L17.5399 12.5844L17.341 12.7829L17.41 13.0572L18.9589 19.2157L12.6017 16.5682L12.379 16.4755L12.169 16.5907L6.17891 19.8767L6.96093 13.5964L6.99573 13.317L6.77404 13.1405L1.60382 9.02415L8.36519 7.7663L8.61605 7.71963L8.72328 7.48884L11.4592 1.6006L14.9067 7.16805Z"
+                                fill="white"/>
+                    </svg>
+                </label>
+            </div>
+            <hr>
+
+            <th:block th:if="${contentError != null}">
+                <p class="text-danger" th:text="${contentError}" role="alert"></p>
+            </th:block>
+
+            <label for="post-content" class="form-label fsi-32 fw-medium">본문</label>
+            <textarea th:field="*{content}" th:text="*{content}" name="content" id="post-content"
+                      class="form-control mb-3" rows="12"></textarea>
+
+            <th:block th:if="${tagsError != null}">
+                <p class="text-danger" th:text="${tagsError}" role="alert"></p>
+            </th:block>
+
+            <article class="tag-article">
+                <h3 class="sr-only">태그</h3>
+                <input th:value="*{tags}" th:field="*{tags}" type="hidden" name="tags" id="tags-hidden">
+                <img th:src="@{/img/tag.svg}" alt="">
+                <input type="text" id="tag-input" placeholder="태그를 입력해 주세요">
+                <div class="tag-container" id="tag-container"></div>
+            </article>
+
+            <hr>
+
+            <button class="btn btn-yellow mt-3" type="submit">작성</button>
+        </form>
+    </article>
+</main>
+
+<script th:replace="~{staticFile :: script}"></script>
+<script th:src="@{/js/postWriteRating.js}"></script>
+<script th:src="@{/js/postTag.js}"></script>
+
+</body>
+</html>

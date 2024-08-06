@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:fragment="style">
+        <link th:href="@{/css/style.css}" rel="stylesheet">
+        <link th:href="@{/lib/bootstrap-5.3.3-dist/css/bootstrap.min.css}" rel="stylesheet">
+    </th:block>
+</head>
+<body>
+
+<th:block th:fragment="script">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script th:src="@{/lib/bootstrap-5.3.3-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/selectAddress.js}"></script>
+    <script th:inline="javascript" th:if="${error != null}">
+        /*<![CDATA[*/
+        let message = /*[[${error}]]*/ 'default';
+        alert(message);
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/alertMessage.js}"></script>
+    <script th:src="@{/js/withdraw.js}"></script>
+</th:block>
+</body>
+</html>
