@@ -52,6 +52,7 @@ public class UserController {
         String accountId = principal.getName();
 
         UserDto user = userService.findByAccountId(accountId);
+
         userService.updateVisibleUser(accountId, false);
         userService.updateUserRole(accountId, "Ban");
         postService.invisiblePostByUserId(user.getId());
