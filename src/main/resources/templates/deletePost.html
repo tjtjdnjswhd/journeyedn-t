@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Delete post</title>
@@ -10,18 +10,16 @@
     <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}">
 </form>
 
-<script>
-    /*<![CDATA[*/
+<script th:inline="javascript">
     let id = /*[[${id}]]*/ 'default';
     window.addEventListener('load', () => {
         if (confirm("해당 게시글을 삭제하시겠습니까?")) {
             let form = document.getElementById('deleteForm');
             form.submit();
         } else {
-            location.href = "/admin/notice" + id;
+            location.href = "/posts/" + id;
         }
     })
-    /*]]>*/
 </script>
 
 </body>
