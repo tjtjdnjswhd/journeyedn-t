@@ -43,7 +43,7 @@ public class UserService {
                 .accountId(userSignup.getAccountId())
                 .passwordHash(passwordHash)
                 .nickName(userSignup.getNickName())
-                .isVisible(false)
+                .isVisible(true)
                 .role(role)
                 .build();
 
