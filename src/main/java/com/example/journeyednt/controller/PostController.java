@@ -100,6 +100,7 @@ public class PostController {
         postCreate.setContent(postDto.getContent());
         postCreate.setRating(postDto.getRating());
         postCreate.setTags(postDto.getTags());
+        postCreate.setCountryId(postDto.getCountry().getId());
         model.addAttribute("post", postCreate);
         return "postCreate";
     }

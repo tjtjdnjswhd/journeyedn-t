@@ -85,7 +85,7 @@ public class PostService {
         post.updatePost(
                 postCreate.getTitle(),
                 postCreate.getContent(),
-                false,
+                true,
                 postCreate.getTags(),
                 postCreate.getRating()
         );

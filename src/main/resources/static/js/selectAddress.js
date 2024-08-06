@@ -4,7 +4,6 @@ const request = new Request("/api/country", {
 
 fetch(request).then((response) => {
     response.json().then(countryMap => {
-        console.log(countryMap);
         const addressDropdowns = document.querySelectorAll('.dropdown-address');
         addressDropdowns.forEach(dropdown => {
             const dropdownToggleBtn = dropdown.querySelector('.address-toggle');
@@ -56,6 +55,23 @@ fetch(request).then((response) => {
                     }
                 });
             });
+
+            if (idInput.value) {
+                for (let countryMapKey in countryMap) {
+                    const countryDict = countryMap[countryMapKey];
+                    for (let countryName in countryDict) {
+                        if (countryDict[countryName] === parseInt(idInput.value)) {
+                            let targetCityLi = cityUl.querySelector('li[data-value=' + countryMapKey + ']');
+                            let clickEvent = new Event('click')
+                            targetCityLi.dispatchEvent(clickEvent);
+
+                            let countryLi = countryUl.querySelector('li[data-value="' + idInput.value + '"]');
+                            countryLi.dispatchEvent(clickEvent);
+                            return;
+                        }
+                    }
+                }
+            }
         });
     });
 })
