@@ -25,7 +25,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     int updateUserPostsVisibility(Integer userId, Boolean isVisible);
 
     @Modifying
-    @Query(value = "UPDATE Post p SET p.cdd_id = :cdd_id WHERE p.id = :id", nativeQuery = true)
+    @Query(value = "UPDATE post p SET p.cdd_id = :cdd_id WHERE p.id = :id", nativeQuery = true)
     int updateCddId(@Param("id") Integer id, @Param("cdd_id") Integer cddId);
 
     @Modifying
@@ -34,24 +34,23 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     List<Post> findByIsNoticeTrueAndIsVisibleTrue(Pageable pageable);
 
-    @Query(value = "SELECT p.* FROM Post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
     List<Post> findByIsVisibleTrueAndByTextOrderByCreateAtDesc(String text, Pageable pageable);
 
-    @Query(value = "SELECT p.* FROM Post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.rating", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM post p JOIN country c WHERE (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.rating", nativeQuery = true)
     List<Post> findByIsVisibleTrueAndByTextOrderByRatingDesc(String text, Pageable pageable);
 
     List<Post> findByCountryIdAndIsVisibleTrueOrderByCreatedAtDesc(Integer countryId, Pageable pageable);
 
     List<Post> findByCountryIdAndIsVisibleTrueOrderByRatingDesc(Integer countryId, Pageable pageable);
 
-    @Query(value = "SELECT p.* FROM Post p JOIN country c WHERE c.id = :countryId AND (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM post p JOIN country c WHERE c.id = :countryId AND (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.created_at", nativeQuery = true)
     List<Post> findByCountryIdAndIsVisibleTrueAndByTextOrderByCreateAtDesc(Integer countryId, String text, Pageable pageable);
 
-    @Query(value = "SELECT p.* FROM Post p JOIN country c WHERE c.id = :countryId AND (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.rating", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM post p JOIN country c WHERE c.id = :countryId AND (p.title LIKE CONCAT('%', :text, '%') OR :text MEMBER OF (p.tags)) AND p.is_visible = true ORDER BY p.rating", nativeQuery = true)
     List<Post> findByCountryIdAndIsVisibleTrueAndByTextOrderByRatingDesc(Integer countryId, String text, Pageable pageable);
 
     List<Post> findByIsVisibleTrueOrderByCreatedAtDesc(Pageable pageable);
 
     List<Post> findByIsVisibleTrueOrderByRatingDesc(Pageable pageable);
-
 }
