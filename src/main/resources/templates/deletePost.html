@@ -11,14 +11,17 @@
 </form>
 
 <script>
+    /*<![CDATA[*/
+    let id = /*[[${id}]]*/ 'default';
     window.addEventListener('load', () => {
         if (confirm("해당 게시글을 삭제하시겠습니까?")) {
             let form = document.getElementById('deleteForm');
             form.submit();
         } else {
-            location.href = "/";
+            location.href = "/admin/notice" + id;
         }
     })
+    /*]]>*/
 </script>
 
 </body>

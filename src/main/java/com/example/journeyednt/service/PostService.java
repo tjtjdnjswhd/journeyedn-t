@@ -126,6 +126,11 @@ public class PostService {
         postRepository.updatePostVisibility(id, false);
     }
 
+    @Transactional
+    public void invisiblePostByUserId(Integer userId) {
+        postRepository.updateUserPostsVisibility(userId, false);
+    }
+
     @Transactional(readOnly = true)
     public boolean existsByIdAndUserId(int id, int userId) {
         return postRepository.existsByIdAndUserId(id, userId);

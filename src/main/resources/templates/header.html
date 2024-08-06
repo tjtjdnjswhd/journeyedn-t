@@ -50,10 +50,14 @@
 
     <section>
         <div sec:authorize="isAuthenticated()">
-            <h2 class="sr-only">유저 이름, 로그아웃 링크</h2>
+            <h2 class="sr-only">유저 이름, 로그아웃, 탈퇴 링크</h2>
             <a class="me-5 fsi-24 fw-medium" th:href="@{/posts/create}">리뷰 작성</a>
             <span class="me-5 fsi-24 fw-medium" th:text="${#authentication.name}"></span>
             <a class="fw-medium fsi-24" th:href="@{/users/logout}">로그아웃</a>
+            <form class="d-inline" id="withdraw-form" action="/users/withdraw" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button class="btn" type="submit">탈퇴</button>
+            </form>
         </div>
         <div sec:authorize="isAnonymous()">
             <h2 class="sr-only">로그인, 회원가입 링크</h2>

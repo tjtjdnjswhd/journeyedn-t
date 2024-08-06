@@ -62,8 +62,7 @@
 
                 <div class="d-flex justify-content-between">
                     <span class="fsi-20 fw-medium"
-                          th:with="date=*{#temporals.format(createdAt, 'YYYY.MM.DD').toString()}"
-                          th:text="${date.substring(0, date.length() - 1)}"></span>
+                          th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd')}"></span>
 
                     <span class="fsi-20 fw-medium" th:text="${address}"></span>
                 </div>

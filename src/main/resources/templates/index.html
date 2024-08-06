@@ -29,8 +29,7 @@
                             <img th:src="@{/img/Chevron Right.svg}" alt="" height="51">
                         </a>
                         <span class="d-block fw-medium"><a th:href="@{/admin/notice/{id}(id=${notice.id})}"
-                                                           th:with="date=${#temporals.format(notice.createdAt, 'YYYY-MM-DD')}"
-                                                           th:text="${date.substring(0, date.length() - 1)}"></a></span>
+                                                           th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}"></a></span>
                         <span class="d-block fw-medium"><a th:href="@{/admin/notice/{id}(id=${notice.id})}"
                                                            th:text="${notice.title}"></a></span>
                     </div>
