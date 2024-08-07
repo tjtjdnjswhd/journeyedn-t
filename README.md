@@ -55,9 +55,9 @@
     <td>
     📌 서원종 (👑PM)<br>
       <img src="https://hypnotic-knife-fcb.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F77987b12-b747-4fdc-831e-f2727433c4fc%2F5ef8841f-e437-416b-a3d8-b38cc97c95cf%2F%25E1%2584%2589%25E1%2585%25A9%25E1%2584%2584%25E1%2585%25B5.png?table=block&id=5c5bbe00-5df4-4448-915d-9a1dffdf8553&spaceId=77987b12-b747-4fdc-831e-f2727433c4fc&width=1420&userId=&cache=v2" width="100" height="100"><br>
-      <strong>담당</strong>: 프로젝트 매니저<br>
-      <strong>MBTI</strong>: <br>
-      <strong>소개</strong>: <br>
+      <strong>담당</strong>: 프로젝트 매니저 & 프론트 & 백<br>
+      <strong>MBTI</strong>: INTP<br>
+      <strong>소개</strong>: 처음 팀장을 맡아 떨리네요…<br>
     </td>
     <td>
     📌 박혜원<br>
